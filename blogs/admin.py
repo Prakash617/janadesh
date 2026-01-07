@@ -25,30 +25,21 @@ class CommentAdmin(admin.ModelAdmin):
 
 admin.site.register(Comment, CommentAdmin)
 
-
+@admin.register(Blog)
 class BlogAdmin(admin.ModelAdmin):
-    list_display = ('title_en', 'category', 'author', 'status', 'is_featured', 'view_count', 'published_at', 'created_at')
+    list_display = (
+        'title_en', 'category', 'author',
+        'status', 'is_featured',
+        'view_count', 'published_at', 'created_at'
+    )
     list_filter = ('status', 'is_featured', 'category', 'author')
+    list_editable = ('status', 'is_featured')
     search_fields = ('title_en', 'title_np', 'content_en', 'content_np')
     prepopulated_fields = {'slug': ('title_en',)}
-    # raw_id_fields = ('author',) # Assuming author is a User model
     filter_horizontal = ('tags',)
     date_hierarchy = 'published_at'
-    readonly_fields = ('view_count', 'created_at', 'updated_at')
-    fieldsets = (
-        (None, {
-            'fields': ('title_en', 'title_np', 'slug', 'featured_image', 'content_en', 'content_np', 'excerpt_en', 'excerpt_np')
-        }),
-        ('Categorization', {
-            'fields': ('category', 'tags', 'author')
-        }),
-        ('Publication', {
-            'fields': ('status', 'is_featured', 'published_at')
-        }),
-        ('Dates', {
-            'fields': ('created_at', 'updated_at', 'view_count'),
-            'classes': ('collapse',)
-        }),
-    )
 
-admin.site.register(Blog, BlogAdmin)
+    exclude = ('created_at', 'updated_at')
+    readonly_fields = ('view_count',)  # ✅ only this
+
+

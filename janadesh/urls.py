@@ -18,15 +18,18 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from .admin_views import filehub_embed
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,  # login and get token
-    TokenRefreshView,     # refresh token
+    TokenRefreshView,    
 )
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 
 urlpatterns = [
+    path("filemanager/", filehub_embed, name="admin_filehub"),
+    path('', include('filehub.urls'), name='filehub'),
     path('admin/', admin.site.urls),
     path('analytics/', include('analytics.urls')),
     path('blogs/', include('blogs.urls')),
@@ -44,6 +47,7 @@ urlpatterns = [
     # Optional: Django REST Framework browsable API authentication
     path('api-auth/', include('rest_framework.urls')),
     path('api/', include(router.urls)),
+    path('tinymce/', include('tinymce.urls')),
 ]
 
 if settings.DEBUG:

@@ -2,14 +2,15 @@ from django.db import models
 from django.utils.text import slugify
 from django.contrib.auth.models import User
 import uuid
+from tinymce.models import HTMLField
 
 class BlogCategory(models.Model):
     """Blog categories"""
     name_en = models.CharField(max_length=100)
     name_np = models.CharField(max_length=100, blank=True, null=True)
     slug = models.SlugField(max_length=100, unique=True)
-    description_en = models.TextField(blank=True, null=True)
-    description_np = models.TextField(blank=True, null=True)
+    description_en = HTMLField(blank=True, null=True)
+    description_np = HTMLField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -45,10 +46,10 @@ class Blog(models.Model):
     title_en = models.CharField(max_length=255)
     title_np = models.CharField(max_length=255, blank=True, null=True)
     slug = models.SlugField(max_length=255, unique=True)
-    content_en = models.TextField()
-    content_np = models.TextField(blank=True, null=True)
-    excerpt_en = models.TextField(blank=True, null=True)
-    excerpt_np = models.TextField(blank=True, null=True)
+    content_en = HTMLField()
+    content_np = HTMLField(blank=True, null=True)
+    excerpt_en = HTMLField(blank=True, null=True)
+    excerpt_np = HTMLField(blank=True, null=True)
     featured_image = models.ImageField(upload_to='blogs/blog/', null=True, blank=True)
     category = models.ForeignKey(BlogCategory, on_delete=models.SET_NULL, null=True, related_name='blogs')
     tags = models.ManyToManyField(BlogTag, blank=True, related_name='blogs')
@@ -86,7 +87,7 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
     blogs = models.ForeignKey(Blog, on_delete=models.CASCADE, null=True, blank=True, related_name='comments')
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
-    content = models.TextField()
+    content = HTMLField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

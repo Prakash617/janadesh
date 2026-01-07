@@ -21,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-=x&^+qdz4x0_qe4vt16u^+j@fcr_@91p%i=*s(iy=j#e5)(s*@'
+SECRET_KEY = "django-insecure-=x&^+qdz4x0_qe4vt16u^+j@fcr_@91p%i=*s(iy=j#e5)(s*@"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ["*"]
 
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
@@ -35,7 +35,6 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     "https://janadesh.gowell.edu.np",
-    
 ]
 
 CSRF_COOKIE_SECURE = False
@@ -46,76 +45,80 @@ CORS_ALLOW_SAME_ORIGIN = True
 # Application definition
 
 INSTALLED_APPS = [
-    'dashub',
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
+    "dashub",
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
 
-    'analytics',
-    'blogs',
-    'campaign',
-    'contacts',
-    'galleries',
-    'menu',
-    'organization',
-    'seo',
-    'services',
-    'timelines',
-    'newsletters',
-    'rest_framework',
+    "rest_framework",
+    "rest_framework_simplejwt",
+    
+    "tinymce",
+    "filehub",
+
+    "analytics",
+    "blogs",
+    "campaign",
+    "contacts",
+    "galleries",
+    "menu",
+    "organization",
+    "seo",
+    "services",
+    "timelines",
+    "newsletters",
+    
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
 
-
-
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=7),  # access token valid for 30 mins
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),     # refresh token valid for 1 day
-    'ROTATE_REFRESH_TOKENS': True,
-    'BLACKLIST_AFTER_ROTATION': True,
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=7),  # access token valid for 30 mins
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=30),  # refresh token valid for 1 day
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
 }
 
 
-ROOT_URLCONF = 'janadesh.urls'
+ROOT_URLCONF = "janadesh.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [BASE_DIR / "templates"],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'janadesh.wsgi.application'
+WSGI_APPLICATION = "janadesh.wsgi.application"
 
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
@@ -125,16 +128,16 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
@@ -142,9 +145,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "UTC"
 
 USE_I18N = True
 
@@ -154,7 +157,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
@@ -162,30 +165,34 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 
-
-
 DASHUB_SETTINGS = {
-    "site_logo": "/static/logo.svg",
+    "site_logo": "/static/img/logo_janadesh.webp",
     "site_icon": "/static/favicon.ico",
     "theme_color": "#31aa98",
     "border_radius": "5px",
     "hide_models": [
         "auth",  # Hides all models in the auth app
-        "auth.group"  # Hides the group model in the auth app
+        "auth.group",  # Hides the group model in the auth app
     ],
     "custom_links": {
         "auth": [
-            {
-                "model": "auth.post" # Links directly to the auth.post model
-            },
+            {"model": "auth.post"},  # Links directly to the auth.post model
             {
                 "name": "User Management",
                 "icon": "fa-solid fa-users",
                 "submenu": [
                     {"model": "auth.user", "order": 1},
-                    {"model": "auth.group", "order": 2}
-                ]
-            }
+                    {"model": "auth.group", "order": 2},
+                ],
+            },
+        ],
+        "advance": [
+            {
+                "name": "File Manager",
+                "url": "/filemanager/",
+                "icon": "fa-solid fa-folder",
+                "order": 1,
+            },
         ],
     },
     "submenus_models": ["auth.group"],
@@ -194,13 +201,97 @@ DASHUB_SETTINGS = {
         "auth.group": 4,
     },
     "icons": {
-        "auth": "fa-regular fa-user",
-        "auth.user": "fa-regular fa-user",
-    },
+    "auth.user": "hgi hgi-stroke hgi-user-sharing",
+    "auth.group": "hgi hgi-stroke hgi-user-group-03",
+    "analytics.analyticsevent": "hgi hgi-stroke hgi-chart-bar",
+    "blogs.blogcategory": "hgi hgi-stroke hgi-folder",
+    "blogs.blogtag": "hgi hgi-stroke hgi-tag-01",
+    "blogs.blog": "hgi hgi-stroke hgi-license",
+    "blogs.comment": "hgi hgi-stroke hgi-message-square",
+    "campaign.campaign": "hgi hgi-stroke hgi-megaphone",
+    "campaign.campaignactivity": "hgi hgi-stroke hgi-calendar",
+    "campaign.volunteer": "hgi hgi-stroke hgi-hand-heart",
+    "contacts.contact": "hgi hgi-stroke hgi-send",
+    "galleries.gallery": "hgi hgi-stroke hgi-image-01",
+    "galleries.galleryimage": "hgi hgi-stroke hgi-image-plus",
+    "menu.menu": "hgi hgi-stroke hgi-menu-01",
+    "menu.menuitem": "hgi hgi-stroke hgi-list",
+    "organization.organization": "hgi hgi-stroke hgi-building-07",
+    "organization.leadership": "hgi hgi-stroke hgi-user-group",
+    "organization.membershipregistration": "hgi hgi-stroke hgi-user-plus",
+    "organization.policy": "hgi hgi-stroke hgi-file-03",
+    "organization.donation": "hgi hgi-stroke hgi-wallet-01",
+    "seo.seometadata": "hgi hgi-stroke hgi-globe",
+    "services.service": "hgi hgi-stroke hgi-tool-02",
+    "timelines.timeline": "hgi hgi-stroke hgi-clock",
+    "newsletters.newslettersubscription": "hgi hgi-stroke hgi-mail",
+},
+
     "custom_js": [
         "/static/js/admin.js",
     ],
     "custom_css": [
         "/static/css/admin.css",
-    ]
+    ],
+}
+
+
+TINYMCE_JS_URL = "https://cdnjs.cloudflare.com/ajax/libs/tinymce/7.5.1/tinymce.min.js"
+TINYMCE_DEFAULT_CONFIG = {
+    "promotion": False,
+    "menubar": "file edit view insert format tools table",
+    "plugins": "codesample link media image code fullscreen filehub table autolink advlist lists autoresize emoticons "
+    "wordcount questionshortcode",
+    "toolbar": [
+        "bold italic underline strikethrough questionshortcode | forecolor blocks | subscript superscript | list "
+        "bullist numlist blockquote | alignleft aligncenter alignright alignjustify | autolink link table ",
+        "formatselect autolink | subscript superscript | outdent indent | filehub image media emoticons | ",
+        "wordcount codesample fullscreen code",
+    ],
+    "image_advtab": False,
+    "external_filemanager_path": "/filehub/select/",
+    "filemanager_title": "Filemanager",
+    "external_plugins": {
+        # "filehub": "/static/filehub/tinymce/plugin.js",
+        "filehub": "/static/filehub/tinymce/plugin.min.js",
+        "questionshortcode": "/static/admin/tinymce/questionshortcode/plugin.js",
+    },
+    "relative_urls": False,
+    "remove_script_host": False,
+    "toolbar_sticky": True,
+    "image_dimensions": False,
+    "noneditable_noneditable_class": "alert",
+    "min_height": 300,
+    "license_key": "gpl",
+    "content_css": ["/static/assets/css/tinymce.css"],
+    "setup": """function (editor) {
+        editor.on('PastePreProcess', function(e) {
+            const div = document.createElement("div");
+            div.innerHTML = e.content;
+
+            function cleanNode(node) {
+                if (node.nodeType === 1) {
+                    while (node.attributes.length > 0) {
+                        node.removeAttribute(node.attributes[0].name);
+                    }
+                    for (let i = 0; i < node.childNodes.length; i++) {
+                        cleanNode(node.childNodes[i]);
+                    }
+                } else if (node.nodeType === 8) {
+                    node.parentNode.removeChild(node);
+                }
+            }
+
+            cleanNode(div);
+            e.content = div.innerHTML;
+        });
+    }""",
+}
+
+TINYMCE_EXTRA_MEDIA = {
+    "css": {
+        "all": [
+            "/static/assets/css/tinymce.css",
+        ]
+    }
 }
