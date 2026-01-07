@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,6 +27,20 @@ SECRET_KEY = 'django-insecure-=x&^+qdz4x0_qe4vt16u^+j@fcr_@91p%i=*s(iy=j#e5)(s*@
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+
+
+X_FRAME_OPTIONS = "SAMEORIGIN"
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "https://janadesh.gowell.edu.np",
+    
+]
+
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False
+CORS_ALLOW_SAME_ORIGIN = True
 
 
 # Application definition
@@ -50,6 +65,7 @@ INSTALLED_APPS = [
     'services',
     'timelines',
     'newsletters',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -61,6 +77,17 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+
+
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=7),  # access token valid for 30 mins
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),     # refresh token valid for 1 day
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+}
+
 
 ROOT_URLCONF = 'janadesh.urls'
 
