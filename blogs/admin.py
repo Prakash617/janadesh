@@ -31,7 +31,7 @@ class BlogAdmin(admin.ModelAdmin):
     list_filter = ('status', 'is_featured', 'category', 'author')
     search_fields = ('title_en', 'title_np', 'content_en', 'content_np')
     prepopulated_fields = {'slug': ('title_en',)}
-    raw_id_fields = ('author',) # Assuming author is a User model
+    # raw_id_fields = ('author',) # Assuming author is a User model
     filter_horizontal = ('tags',)
     date_hierarchy = 'published_at'
     readonly_fields = ('view_count', 'created_at', 'updated_at')
