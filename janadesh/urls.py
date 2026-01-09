@@ -22,7 +22,7 @@ urlpatterns = [
     path("", include("filehub.urls"), name="filehub"),
     path("admin/", admin.site.urls),
     path("analytics/", include("analytics.urls")),
-    path("blogs/", include("blogs.urls")),
+    # path("api/<str:version>/blogs/", include("blogs.urls")),
     path("campaign/", include("campaign.urls")),
     path("contacts/", include("contacts.urls")),
     path("galleries/", include("galleries.urls")),
@@ -34,9 +34,13 @@ urlpatterns = [
     path("newsletters/", include("newsletters.urls")),
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    
+    # ----- API (versioned) -----
+    path("api/v1/blogs/", include("blogs.api.v1.urls")),
+    path("api/v2/blogs/", include("blogs.api.v2.urls")),
+    
     # Optional: Django REST Framework browsable API authentication
     path("api-auth/", include("rest_framework.urls")),
-    path("api/", include(router.urls)),
     path("tinymce/", include("tinymce.urls")),
     # OpenAPI schema
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
@@ -52,6 +56,7 @@ urlpatterns = [
         SpectacularRedocView.as_view(url_name="schema"),
         name="redoc",
     ),
+     path('api/', include(router.urls)),
 ]
 
 if settings.DEBUG:

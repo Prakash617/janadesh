@@ -42,6 +42,7 @@ SESSION_COOKIE_SECURE = False
 CORS_ALLOW_SAME_ORIGIN = True
 
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -59,6 +60,7 @@ INSTALLED_APPS = [
     
     "tinymce",
     "filehub",
+    "corsheaders",
 
     "analytics",
     "blogs",
