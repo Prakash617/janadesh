@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "tinymce",
     "filehub",
     "corsheaders",
+    
 
     "analytics",
     "blogs",
