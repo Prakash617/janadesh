@@ -10,7 +10,7 @@ class Timeline(models.Model):
     description_en = models.TextField()
     description_np = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to='timelines/timeline/', null=True, blank=True)
-    is_milestone = models.BooleanField(default=False)
+    is_milestone = models.BooleanField(default=False)  # it is for major events
     order = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

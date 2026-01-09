@@ -74,6 +74,8 @@ INSTALLED_APPS = [
     "services",
     "timelines",
     "newsletters",
+    'django_filters',
+    
     
 ]
 
@@ -89,13 +91,28 @@ MIDDLEWARE = [
 ]
 
 REST_FRAMEWORK = {
+    # OpenAPI / schema
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+
+    # API versioning
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning',
     'DEFAULT_VERSION': 'v1',
     'ALLOWED_VERSIONS': ['v1', 'v2'],
     'VERSION_PARAM': 'version',
-    'somthing': 'something',
+
+    # Default filter backends
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter',
+        'janadesh.filters.LimitFilter',  # your custom limit backend
+    ],
+
+    # Default pagination
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,  # default items per page
 }
+
 
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Janadesh API',

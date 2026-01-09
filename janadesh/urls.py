@@ -24,13 +24,13 @@ urlpatterns = [
     path("analytics/", include("analytics.urls")),
     # path("api/<str:version>/blogs/", include("blogs.urls")),
     path("campaign/", include("campaign.urls")),
-    path("contacts/", include("contacts.urls")),
-    path("galleries/", include("galleries.urls")),
+    # path("contacts/", include("contacts.urls")),
+    # path("galleries/", include("galleries.urls")),
     path("menu/", include("menu.urls")),
     path("organization/", include("organization.urls")),
     path("seo/", include("seo.urls")),
     path("services/", include("services.urls")),
-    path("timelines/", include("timelines.urls")),
+    # path("timelines/", include("timelines.urls")),
     path("newsletters/", include("newsletters.urls")),
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
@@ -39,9 +39,18 @@ urlpatterns = [
     path("api/v1/blogs/", include("blogs.api.v1.urls")),
     path("api/v2/blogs/", include("blogs.api.v2.urls")),
     
+    path("api/v1/contacts/", include("contacts.api.v1.urls")),
+    
+    # Example: Gallery API v1
+    path("api/v1/galleries/", include("galleries.api.v1.urls")),
+    
+    # Example: Gallery API v1
+    path("api/v1/timelines/", include("timelines.api.v1.urls")),
+
+    
     # Optional: Django REST Framework browsable API authentication
     path("api-auth/", include("rest_framework.urls")),
-    path("tinymce/", include("tinymce.urls")),
+    # path("tinymce/", include("tinymce.urls")),
     # OpenAPI schema
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     # Swagger UI
