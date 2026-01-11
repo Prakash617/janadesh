@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,9 +25,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-=x&^+qdz4x0_qe4vt16u^+j@fcr_@91p%i=*s(iy=j#e5)(s*@"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = ["*"]
+
+AUTH_USER_MODEL = 'accounts.User'
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
+
 
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
@@ -62,8 +69,8 @@ INSTALLED_APPS = [
     "filehub",
     "corsheaders",
     
-
-    "analytics",
+    'accounts',
+    "analytics.apps.AnalyticsConfig",
     "blogs",
     "campaign",
     "contacts",
@@ -83,6 +90,8 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+
+    'analytics.middleware.AnalyticsMiddleware',
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -107,6 +116,10 @@ REST_FRAMEWORK = {
         'rest_framework.filters.OrderingFilter',
         'janadesh.filters.LimitFilter',  # your custom limit backend
     ],
+    
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly",
+    ],
 
     # Default pagination
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
@@ -123,6 +136,11 @@ SPECTACULAR_SETTINGS = {
     # Optional but useful
     'COMPONENT_SPLIT_REQUEST': True,
     'SORT_OPERATIONS': False,
+    # fix enum naming collisions
+    "ENUM_NAME_OVERRIDES": {
+        "Blog.status": "BlogStatusEnum",
+        "Contact.status": "ContactStatusEnum",
+    },
 }
 
 
@@ -157,7 +175,32 @@ WSGI_APPLICATION = "janadesh.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": "janadesh",
+#         "USER": "postgres",
+#         "PASSWORD": "postgres",
+#         "HOST": "localhost",
+#         "PORT": "5432",
+#     }
+# }
+
+if DEBUG:
+    # Local development database
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': config('DB_NAME'),
+            'USER': config('DB_USER'),
+            'PASSWORD': config('DB_PASSWORD'),
+            'HOST': config('DB_HOST'),
+            'PORT': config('DB_PORT'),
+        }
+    }
+else:
+    # Production database (from .env)
+   DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
@@ -207,14 +250,37 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='your_email@example.com')  # Your email
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='your_email_password') 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 DASHUB_SETTINGS = {
     "site_logo": "/static/img/logo_janadesh.webp",
     "site_icon": "/static/favicon.ico",
-    "theme_color": "#31aa98",
+    "theme_color": "#1E72B7",
     "border_radius": "5px",
     "hide_models": [
-        "auth",  # Hides all models in the auth app
-        "auth.group",  # Hides the group model in the auth app
+        # "auth",  # Hides all models in the auth app
+        # "auth.group",  # Hides the group model in the auth app
+        'blogs.comment',
     ],
     "custom_links": {
         "auth": [
@@ -232,7 +298,7 @@ DASHUB_SETTINGS = {
             {
                 "name": "File Manager",
                 "url": "/filemanager/",
-                "icon": "fa-solid fa-folder",
+                "icon": "hgi hgi-stroke hgi-folder-cloud",
                 "order": 1,
             },
         ],
@@ -246,27 +312,27 @@ DASHUB_SETTINGS = {
     "auth.user": "hgi hgi-stroke hgi-user-sharing",
     "auth.group": "hgi hgi-stroke hgi-user-group-03",
     "analytics.analyticsevent": "hgi hgi-stroke hgi-chart-bar",
-    "blogs.blogcategory": "hgi hgi-stroke hgi-folder",
+    "blogs.blogcategory": "hgi hgi-stroke hgi-calendar-02",
     "blogs.blogtag": "hgi hgi-stroke hgi-tag-01",
     "blogs.blog": "hgi hgi-stroke hgi-license",
-    "blogs.comment": "hgi hgi-stroke hgi-message-square",
-    "campaign.campaign": "hgi hgi-stroke hgi-megaphone",
-    "campaign.campaignactivity": "hgi hgi-stroke hgi-calendar",
-    "campaign.volunteer": "hgi hgi-stroke hgi-hand-heart",
-    "contacts.contact": "hgi hgi-stroke hgi-send",
+    "blogs.comment": "hgi hgi-stroke hgi-comment-01",
+    "campaign.campaign": "hgi hgi-stroke hgi-megaphone-01",
+    "campaign.campaignactivity": "hgi hgi-stroke hgi-activity-01",
+    "campaign.volunteer": "hgi hgi-stroke hgi-add-male",
+    "contacts.contact": "hgi hgi-stroke hgi-contact-01",
     "galleries.gallery": "hgi hgi-stroke hgi-image-01",
     "galleries.galleryimage": "hgi hgi-stroke hgi-image-plus",
     "menu.menu": "hgi hgi-stroke hgi-menu-01",
     "menu.menuitem": "hgi hgi-stroke hgi-list",
-    "organization.organization": "hgi hgi-stroke hgi-building-07",
+    "organization.organization": "hgi hgi-stroke hgi-drawing-compass",
     "organization.leadership": "hgi hgi-stroke hgi-user-group",
-    "organization.membershipregistration": "hgi hgi-stroke hgi-user-plus",
-    "organization.policy": "hgi hgi-stroke hgi-file-03",
+    "organization.membershipregistration": "hgi hgi-stroke hgi-user-add-01",
+    "organization.policy": "hgi hgi-stroke hgi-policy",
     "organization.donation": "hgi hgi-stroke hgi-wallet-01",
     "seo.seometadata": "hgi hgi-stroke hgi-globe",
-    "services.service": "hgi hgi-stroke hgi-tool-02",
-    "timelines.timeline": "hgi hgi-stroke hgi-clock",
-    "newsletters.newslettersubscription": "hgi hgi-stroke hgi-mail",
+    "services.service": "hgi hgi-stroke hgi-service",
+    "timelines.timeline": "hgi hgi-stroke hgi-timeline",
+    "newsletters.newslettersubscription": "hgi hgi-stroke hgi-news-01",
 },
 
     "custom_js": [

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Membership Application Update</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 600;
+        }
+        .icon {
+            font-size: 60px;
+            margin-bottom: 10px;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .content h2 {
+            color: #dc3545;
+            margin-top: 0;
+            font-size: 24px;
+        }
+        .content p {
+            margin: 15px 0;
+            font-size: 16px;
+        }
+        .info-box {
+            background-color: #f8f9fa;
+            border-left: 4px solid #dc3545;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 4px;
+        }
+        .info-box h3 {
+            margin-top: 0;
+            color: #dc3545;
+            font-size: 18px;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        .info-label {
+            font-weight: 600;
+            color: #555;
+        }
+        .info-value {
+            color: #333;
+        }
+        .reason-box {
+            background-color: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        .reason-box h3 {
+            color: #856404;
+            margin-top: 0;
+            font-size: 18px;
+        }
+        .reason-box p {
+            color: #856404;
+            margin: 0;
+        }
+        .button {
+            display: inline-block;
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+            padding: 14px 32px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            margin: 20px 0;
+            transition: transform 0.2s;
+        }
+        .button:hover {
+            transform: translateY(-2px);
+        }
+        .help-section {
+            background-color: #e7f3ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        .help-section h3 {
+            color: #007bff;
+            margin-top: 0;
+        }
+        .help-section ul {
+            padding-left: 20px;
+        }
+        .help-section li {
+            margin: 10px 0;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+        }
+        .footer p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #666;
+        }
+        .social-links {
+            margin: 15px 0;
+        }
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        @media only screen and (max-width: 600px) {
+            .container {
+                margin: 10px;
+            }
+            .content {
+                padding: 30px 20px;
+            }
+            .header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="icon">ℹ</div>
+            <h1>Application Update</h1>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <h2>Dear {{ full_name }},</h2>
+            
+            <p>Thank you for your interest in joining our organization and taking the time to submit your membership application.</p>
+            
+            <p>After careful review of your application, we regret to inform you that we are unable to approve your membership at this time.</p>
+
+            <!-- Application Details -->
+            <div class="info-box">
+                <h3>Application Details</h3>
+                <div class="info-row">
+                    <span class="info-label">Application ID:</span>
+                    <span class="info-value">{{ membership.id }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Membership Type:</span>
+                    <span class="info-value">{{ membership.get_membership_type_display }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Full Name:</span>
+                    <span class="info-value">{{ membership.get_full_name }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Email:</span>
+                    <span class="info-value">{{ membership.email }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Submitted On:</span>
+                    <span class="info-value">{{ membership.created_at|date:"F d, Y" }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Status:</span>
+                    <span class="info-value">Not Approved</span>
+                </div>
+            </div>
+
+            <!-- Reason for Rejection -->
+            {% if membership.rejection_reason %}
+            <div class="reason-box">
+                <h3>Reason</h3>
+                <p>{{ membership.rejection_reason }}</p>
+            </div>
+            {% endif %}
+
+            <!-- What You Can Do -->
+            <div class="help-section">
+                <h3>What Can You Do?</h3>
+                <ul>
+                    <li><strong>Review Requirements:</strong> Please review our membership requirements and eligibility criteria carefully.</li>
+                    <li><strong>Update Information:</strong> If any information in your application was incomplete or incorrect, you may update it.</li>
+                    <li><strong>Reapply:</strong> You are welcome to submit a new application after addressing the concerns mentioned above.</li>
+                    <li><strong>Contact Support:</strong> If you have questions or need clarification, please reach out to our support team.</li>
+                    <li><strong>Alternative Options:</strong> Explore other ways to engage with our community, such as volunteering or attending public events.</li>
+                </ul>
+            </div>
+
+            <!-- Call to Action -->
+            <center>
+                <a href="{{ reapply_url }}" class="button">Submit New Application</a>
+            </center>
+
+            <p style="margin-top: 30px;">We appreciate your understanding and encourage you to reach out if you have any questions. We value your interest in our organization and hope to have the opportunity to work with you in the future.</p>
+
+            <p style="margin-top: 20px;">
+                <strong>Important:</strong> If you believe this decision was made in error or you have additional information that should be considered, please contact us within 30 days of receiving this email.
+            </p>
+
+            <p style="margin-top: 30px;">
+                <strong>Best regards,</strong><br>
+                The Membership Review Team
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>Contact Us</strong></p>
+            <p>Email: support@example.com | Phone: +977-1-234567</p>
+            <p>Address: Kathmandu, Nepal</p>
+            
+            <div class="social-links">
+                <a href="#">Facebook</a> |
+                <a href="#">Twitter</a> |
+                <a href="#">LinkedIn</a>
+            </div>
+            
+            <p style="margin-top: 20px; font-size: 12px; color: #999;">
+                This is an automated message. Please do not reply to this email.<br>
+                © 2025 All Rights Reserved.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

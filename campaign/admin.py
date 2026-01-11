@@ -32,7 +32,8 @@ class CampaignActivityAdmin(admin.ModelAdmin):
     list_filter = ('activity_type', 'campaign', 'date')
     search_fields = ('title_en', 'title_np', 'description_en', 'description_np', 'location_en', 'location_np')
     date_hierarchy = 'date'
-    readonly_fields = ('created_at', 'updated_at')
+    exclude = ('created_at', 'updated_at')
+    
 
 admin.site.register(CampaignActivity, CampaignActivityAdmin)
 

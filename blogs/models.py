@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
-from django.contrib.auth.models import User
+from django.conf import settings
 import uuid
 from tinymce.models import HTMLField
 
@@ -15,12 +15,12 @@ class BlogCategory(models.Model):
 
     class Meta:
         db_table = 'blog_categories'
-        verbose_name_plural = 'Blog Categories'
-
+        verbose_name_plural = 'Blog Category'
+        
     def __str__(self):
         return self.name_en
-
-
+    
+    
 class BlogTag(models.Model):
     """Blog tags"""
     name_en = models.CharField(max_length=50)
@@ -30,6 +30,7 @@ class BlogTag(models.Model):
 
     class Meta:
         db_table = 'blog_tags'
+        verbose_name_plural = 'Blog Tag'
 
     def __str__(self):
         return self.name_en
@@ -53,7 +54,7 @@ class Blog(models.Model):
     featured_image = models.ImageField(upload_to='blogs/blog/', null=True, blank=True)
     category = models.ForeignKey(BlogCategory, on_delete=models.SET_NULL, null=True, related_name='blogs')
     tags = models.ManyToManyField(BlogTag, blank=True, related_name='blogs')
-    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='draft')
     is_featured = models.BooleanField(default=False)
     view_count = models.IntegerField(default=0)
@@ -64,6 +65,7 @@ class Blog(models.Model):
     class Meta:
         db_table = 'blogs'
         ordering = ['-published_at', '-created_at']
+        verbose_name_plural = 'Blog'
 
     def __str__(self):
         return self.title_en
@@ -84,7 +86,7 @@ class Comment(models.Model):
     ]
     
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='comments')
     blogs = models.ForeignKey(Blog, on_delete=models.CASCADE, null=True, blank=True, related_name='comments')
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
     content = HTMLField()
@@ -95,7 +97,7 @@ class Comment(models.Model):
     class Meta:
         db_table = 'comments'
         verbose_name = 'Comment'
-        verbose_name_plural = 'Comments'
+        verbose_name_plural = 'Comment'
         ordering = ['-created_at']
     
     def __str__(self):

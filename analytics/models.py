@@ -13,8 +13,8 @@ class AnalyticsEvent(models.Model):
     ]
     
     event_type = models.CharField(max_length=50, choices=EVENT_TYPE_CHOICES)
-    object_type = models.CharField(max_length=50, blank=True, null=True)
-    object_id = models.IntegerField(blank=True, null=True)
+    object_type = models.CharField(max_length=50, blank=True, null=True) #model name
+    object_id = models.IntegerField(blank=True, null=True) #single model id
     url = models.TextField()
     referrer = models.TextField(blank=True, null=True)
     ip_address = models.GenericIPAddressField()

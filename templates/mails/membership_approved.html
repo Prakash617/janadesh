@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Membership Approved</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 600;
+        }
+        .icon {
+            font-size: 60px;
+            margin-bottom: 10px;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .content h2 {
+            color: #28a745;
+            margin-top: 0;
+            font-size: 24px;
+        }
+        .content p {
+            margin: 15px 0;
+            font-size: 16px;
+        }
+        .info-box {
+            background-color: #f8f9fa;
+            border-left: 4px solid #28a745;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 4px;
+        }
+        .info-box h3 {
+            margin-top: 0;
+            color: #28a745;
+            font-size: 18px;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        .info-label {
+            font-weight: 600;
+            color: #555;
+        }
+        .info-value {
+            color: #333;
+        }
+        .button {
+            display: inline-block;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 14px 32px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            margin: 20px 0;
+            transition: transform 0.2s;
+        }
+        .button:hover {
+            transform: translateY(-2px);
+        }
+        .next-steps {
+            background-color: #e7f5ea;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        .next-steps h3 {
+            color: #28a745;
+            margin-top: 0;
+        }
+        .next-steps ul {
+            padding-left: 20px;
+        }
+        .next-steps li {
+            margin: 10px 0;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+        }
+        .footer p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #666;
+        }
+        .social-links {
+            margin: 15px 0;
+        }
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            color: #28a745;
+            text-decoration: none;
+        }
+        @media only screen and (max-width: 600px) {
+            .container {
+                margin: 10px;
+            }
+            .content {
+                padding: 30px 20px;
+            }
+            .header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="icon">✓</div>
+            <h1>Membership Approved!</h1>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <h2>Congratulations, {{ full_name }}!</h2>
+            
+            <p>We are delighted to inform you that your membership application has been <strong>approved</strong>. Welcome to our community!</p>
+            
+            <p>Your dedication and interest in joining us have been recognized, and we look forward to your active participation and contributions.</p>
+
+            <!-- Membership Details -->
+            <div class="info-box">
+                <h3>Membership Details</h3>
+                <div class="info-row">
+                    <span class="info-label">Application ID:</span>
+                    <span class="info-value">{{ membership.id }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Membership Type:</span>
+                    <span class="info-value">{{ membership.get_membership_type_display }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Full Name:</span>
+                    <span class="info-value">{{ membership.get_full_name }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Email:</span>
+                    <span class="info-value">{{ membership.email }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Phone:</span>
+                    <span class="info-value">{{ membership.phone_number }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Province:</span>
+                    <span class="info-value">{{ membership.get_province_display }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">District:</span>
+                    <span class="info-value">{{ membership.district }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Approved On:</span>
+                    <span class="info-value">{{ membership.approved_at|date:"F d, Y" }}</span>
+                </div>
+            </div>
+
+            <!-- Next Steps -->
+            <div class="next-steps">
+                <h3>What's Next?</h3>
+                <ul>
+                    <li><strong>Access Your Dashboard:</strong> Log in to your account to access member-exclusive resources and features.</li>
+                    <li><strong>Complete Your Profile:</strong> Ensure all your information is up to date.</li>
+                    <li><strong>Join Community Events:</strong> Participate in upcoming meetings, workshops, and activities.</li>
+                    <li><strong>Connect with Members:</strong> Network with fellow members and build meaningful connections.</li>
+                    <li><strong>Stay Updated:</strong> Check your email regularly for important announcements and updates.</li>
+                </ul>
+            </div>
+
+            <!-- Call to Action -->
+            <center>
+                <a href="{{ dashboard_url }}" class="button">Access Your Dashboard</a>
+            </center>
+
+            <p style="margin-top: 30px;">If you have any questions or need assistance, please don't hesitate to contact our support team. We're here to help!</p>
+
+            <p style="margin-top: 20px;">Thank you for choosing to be part of our community. Together, we can make a difference!</p>
+
+            <p style="margin-top: 30px;">
+                <strong>Best regards,</strong><br>
+                The Membership Team
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>Contact Us</strong></p>
+            <p>Email: support@example.com | Phone: +977-1-234567</p>
+            <p>Address: Kathmandu, Nepal</p>
+            
+            <div class="social-links">
+                <a href="#">Facebook</a> |
+                <a href="#">Twitter</a> |
+                <a href="#">LinkedIn</a>
+            </div>
+            
+            <p style="margin-top: 20px; font-size: 12px; color: #999;">
+                This is an automated message. Please do not reply to this email.<br>
+                © 2025 All Rights Reserved.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

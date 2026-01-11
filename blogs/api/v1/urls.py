@@ -1,20 +1,21 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from janadesh.api.router import router
+
 from .views import (
     BlogCategoryViewSet,
     BlogTagViewSet,
     BlogViewSet,
-    CommentViewSet
+    CommentViewSet,
 )
 
-app_name = 'blogs-api-v1'
+app_name = "blogs-api-v1"
 
-router = DefaultRouter()
-router.register(r'categories', BlogCategoryViewSet, basename='blog-category')
-router.register(r'tags', BlogTagViewSet, basename='blog-tag')
-router.register(r'', BlogViewSet, basename='blog')
-router.register(r'comments', CommentViewSet, basename='comment')
 
-urlpatterns = [
-    path('', include(router.urls)),
-]
+# Blogs
+router.register("blogs", BlogViewSet, basename="blog")
+
+# Blog metadata
+router.register("blogs/categories", BlogCategoryViewSet, basename="blog-category")
+router.register("blogs/tags", BlogTagViewSet, basename="blog-tag")
+
+# Blog comments
+router.register("blogs/comments", CommentViewSet, basename="blog-comment")

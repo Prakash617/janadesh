@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 
 # Create your models here.
 class Campaign(models.Model):
@@ -24,7 +24,7 @@ class Campaign(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='upcoming')
     goal = models.TextField(blank=True, null=True)
     is_featured = models.BooleanField(default=False)
-    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -55,8 +55,8 @@ class CampaignActivity(models.Model):
     location_en = models.CharField(max_length=255)
     location_np = models.CharField(max_length=255, blank=True, null=True)
     date = models.DateField()
-    start_time = models.TimeField(blank=True, null=True)
-    end_time = models.TimeField(blank=True, null=True)
+    start_time = models.TimeField(blank=True, null=True,help_text="Enter the start time of the event (HH:MM or HH:MM:SS).")
+    end_time = models.TimeField(blank=True, null=True,help_text="Enter the end time of the event (HH:MM or HH:MM:SS).")
     participants_count = models.IntegerField(default=0)
     image = models.ImageField(upload_to='campaign/campaign_activity/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
