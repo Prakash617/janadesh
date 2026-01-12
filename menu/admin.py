@@ -3,11 +3,11 @@ from .models import Menu, MenuItem
 
 # Register your models here.
 
-class MenuItemInline(admin.TabularInline):
+class MenuItemInline(admin.StackedInline):
     model = MenuItem
     extra = 1
-    fields = ('parent', 'label_en', 'label_np', 'url', 'order', 'icon', 'is_external', 'open_new_tab', 'is_active')
-    raw_id_fields = ('parent',)
+    fields = ('label_en', 'label_np', 'title','sub_title', 'url', 'order', 'icon', 'is_external', 'open_new_tab', 'is_active')
+    # raw_id_fields = ('parent',)
 
 class MenuAdmin(admin.ModelAdmin):
     list_display = ('name', 'location', 'is_active', 'created_at')

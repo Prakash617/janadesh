@@ -28,6 +28,8 @@ class MenuItem(models.Model):
     label_en = models.CharField(max_length=100)
     label_np = models.CharField(max_length=100, blank=True, null=True)
     url = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, blank=True, null=True)
+    sub_title = models.CharField(max_length=255, blank=True, null=True)
     order = models.IntegerField(default=0)
     icon = models.CharField(max_length=50, blank=True, null=True)
     is_external = models.BooleanField(default=False) #for external links
