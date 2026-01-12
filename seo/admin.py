@@ -1,29 +1,56 @@
 from django.contrib import admin
 from .models import SEOMetadata
 
-# Register your models here.
+
+@admin.register(SEOMetadata)
 class SEOMetadataAdmin(admin.ModelAdmin):
-    list_display = ('content_object', 'meta_title_en', 'canonical_url', 'robots', 'created_at')
-    list_filter = ('robots', 'created_at')
-    search_fields = ('meta_title_en', 'meta_description_en', 'keywords', 'canonical_url')
-    readonly_fields = ('created_at', 'updated_at')
-    fieldsets = (
-        (None, {
-            'fields': ('content_type', 'object_id', 'content_object')
-        }),
-        ('Meta Tags', {
-            'fields': ('meta_title_en', 'meta_title_np', 'meta_description_en', 'meta_description_np', 'keywords')
-        }),
-        ('Open Graph', {
-            'fields': ('og_title_en', 'og_title_np', 'og_description_en', 'og_description_np', 'og_image')
-        }),
-        ('Advanced', {
-            'fields': ('canonical_url', 'robots')
-        }),
-        ('Dates', {
-            'fields': ('created_at', 'updated_at'),
-            'classes': ('collapse',)
-        }),
+    # 🚨 THIS LINE IS THE KEY FIX
+    exclude = ("content_object",)
+
+    list_display = (
+        "id",
+        "content_type",
+        "object_id",
+        "meta_title_en",
+        "robots",
+        "updated_at",
     )
 
-admin.site.register(SEOMetadata, SEOMetadataAdmin)
+    list_filter = ("content_type", "robots")
+
+    search_fields = (
+        "meta_title_en",
+        "meta_title_np",
+        "meta_description_en",
+        "meta_description_np",
+        "keywords",
+    )
+
+    readonly_fields = ("created_at", "updated_at")
+
+    fieldsets = (
+        ("Target Object", {
+            "fields": ("content_type", "object_id"),
+        }),
+        ("Meta (EN)", {
+            "fields": ("meta_title_en", "meta_description_en"),
+        }),
+        ("Meta (NP)", {
+            "fields": ("meta_title_np", "meta_description_np"),
+        }),
+        ("Open Graph", {
+            "fields": (
+                "og_title_en",
+                "og_title_np",
+                "og_description_en",
+                "og_description_np",
+                "og_image",
+            ),
+        }),
+        ("SEO Advanced", {
+            "fields": ("keywords", "canonical_url", "robots"),
+        }),
+        # ("Timestamps", {
+        #     "fields": ("created_at", "updated_at"),
+        # }),
+    )
