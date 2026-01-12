@@ -1,12 +1,8 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+
+from janadesh.api.router import router
 from .views import TimelineViewSet
 
-app_name = 'timeline-api-v1'
 
-router = DefaultRouter()
-router.register(r'', TimelineViewSet, basename='timeline')
 
-urlpatterns = [
-    path('', include(router.urls)),
-]
+router.register(r'timeline', TimelineViewSet, basename='timeline')
+

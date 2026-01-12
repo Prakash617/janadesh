@@ -29,6 +29,7 @@ import organization.api.v1.urls
 import services.api.v1.urls
 import menu.api.v1.urls
 import analytics.api.v1.urls
+import timelines.api.v1.urls
 
 
 # ------------------------------------------------------------------------------
