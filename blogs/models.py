@@ -3,6 +3,9 @@ from django.utils.text import slugify
 from django.conf import settings
 import uuid
 from tinymce.models import HTMLField
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 class BlogCategory(models.Model):
     """Blog categories"""
@@ -54,7 +57,7 @@ class Blog(models.Model):
     featured_image = models.ImageField(upload_to='blogs/blog/', null=True, blank=True)
     category = models.ForeignKey(BlogCategory, on_delete=models.SET_NULL, null=True, related_name='blogs')
     tags = models.ManyToManyField(BlogTag, blank=True, related_name='blogs')
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='draft')
     is_featured = models.BooleanField(default=False)
     view_count = models.IntegerField(default=0)
