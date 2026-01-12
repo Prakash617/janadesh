@@ -102,39 +102,3 @@ class Comment(models.Model):
     
     def __str__(self):
         return f"Comment by {self.user.username} on {self.blogs.title_en if self.blogs else 'Unknown'}"
-    
-    
-    
-# class User(AbstractUser):
-#     """Extended User model with additional fields"""
-#     PROVINCE_CHOICES = [
-#         ('koshi', 'Koshi'),
-#         ('gandaki', 'Gandaki'),
-#         ('madhesh', 'Madhesh'),
-#         ('bagmati', 'Bagmati'),
-#         ('lumbini', 'Lumbini'),
-#         ('sudurpashchim', 'Sudurpashchim'),
-#         ('karnali', 'Karnali'),
-#     ]
-    
-#     ROLE_CHOICES = [
-#         ('admin', 'Admin'),
-#         ('member', 'Member'),
-#         ('volunteer', 'Volunteer'),
-#         ('donor', 'Donor'),
-#     ]
-    
-#     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-#     phone_number = models.CharField(max_length=15, blank=True, null=True)
-#     province = models.CharField(max_length=20, choices=PROVINCE_CHOICES, blank=True)
-#     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='member')
-#     is_verified = models.BooleanField(default=False)
-#     verification_token = models.CharField(max_length=100, blank=True, null=True)
-    
-#     class Meta:
-#         db_table = 'users'
-#         verbose_name = 'User'
-#         verbose_name_plural = 'Users'
-        
-#     def __str__(self):
-#         return self.username

@@ -1,5 +1,8 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
 from blogs.models import BlogCategory, BlogTag, Blog, Comment
 
 
@@ -46,9 +49,9 @@ class BlogTagSerializer(serializers.ModelSerializer):
 # BLOG LIST
 # ============================
 class BlogListSerializer(serializers.ModelSerializer):
-    category = BlogCategorySerializer(read_only=True)
+    category = BlogCategorySerializer(read_only=True, allow_null=True)
     tags = BlogTagSerializer(many=True, read_only=True)
-    author = UserSerializer(read_only=True)
+    author = UserSerializer(read_only=True, allow_null=True)
 
     class Meta:
         model = Blog
@@ -74,9 +77,9 @@ class BlogListSerializer(serializers.ModelSerializer):
 # BLOG DETAIL
 # ============================
 class BlogDetailSerializer(serializers.ModelSerializer):
-    category = BlogCategorySerializer(read_only=True)
+    category = BlogCategorySerializer(read_only=True, allow_null=True)
     tags = BlogTagSerializer(many=True, read_only=True)
-    author = UserSerializer(read_only=True)
+    author = UserSerializer(read_only=True, allow_null=True)
 
     class Meta:
         model = Blog
