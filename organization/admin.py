@@ -127,10 +127,10 @@ class MembershipRegistrationAdmin(admin.ModelAdmin):
                 'rejection_reason',
             )
         }),
-        ('Timestamps', {
-            'fields': ('created_at', 'updated_at'),
-            'classes': ('collapse',)
-        }),
+        # ('Timestamps', {
+        #     'fields': ('created_at', 'updated_at'),
+        #     'classes': ('collapse',)
+        # }),
     )
     
     ordering = ['-created_at']
