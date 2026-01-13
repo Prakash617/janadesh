@@ -30,6 +30,8 @@ import services.api.v1.urls
 import menu.api.v1.urls
 import analytics.api.v1.urls
 import timelines.api.v1.urls
+import page.api.v1.urls
+import manifesto.api.v1.urls
 
 
 # ------------------------------------------------------------------------------

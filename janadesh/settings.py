@@ -83,6 +83,8 @@ INSTALLED_APPS = [
     "timelines",
     "newsletters",
     'django_filters',
+    "page",
+    'manifesto',
     
     
 ]

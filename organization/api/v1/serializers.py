@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from organization.models import Organization, Leadership, MembershipRegistration, Policy, Donation
+from organization.models import Organization, Leadership, MembershipRegistration, Policy, Donation,PolicyCategory
 from datetime import date
 from django.core.exceptions import ValidationError
 
@@ -134,7 +134,14 @@ class MembershipRegistrationSerializer(serializers.ModelSerializer):
 # ------------------------
 # Policy Serializer
 # ------------------------
+
+class PolicyCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PolicyCategory
+        fields = ["id", "name_en", "name_ne", "slug", "icon"]
+        
 class PolicySerializer(serializers.ModelSerializer):
+    category = PolicyCategorySerializer(read_only=True)
     class Meta:
         model = Policy
         fields = "__all__"
