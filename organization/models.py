@@ -1,6 +1,9 @@
 from django.db import models
 import uuid
 from django.contrib.auth import get_user_model
+from datetime import date
+from django.core.exceptions import ValidationError
+
 
 from django.core.validators import MinValueValidator
 from django.utils.text import slugify
@@ -133,14 +136,14 @@ class MembershipRegistration(models.Model):
     )
 
     # Personal Information (व्यक्तिगत विवरण)
-    first_name = models.CharField(
+    full_name = models.CharField(
         max_length=100, verbose_name="First Name", help_text="User's first name"
-    )
-    last_name = models.CharField(
-        max_length=100, verbose_name="Last Name", help_text="User's last name"
     )
     father_name = models.CharField(
         max_length=100, verbose_name="Father's Name", help_text="Father's full name"
+    )
+    mother_name = models.CharField(
+        max_length=100, verbose_name="Last Name", help_text="User's last name"
     )
     date_of_birth = models.DateField(
         verbose_name="Date of Birth", help_text="Birth date in format MM/DD/YYYY"
@@ -201,7 +204,7 @@ class MembershipRegistration(models.Model):
     # Additional Information
     occupation = models.CharField(
         max_length=100,
-        blank=True,
+        blank=True,null=True,
         verbose_name="Occupation",
         help_text="Current occupation or profession",
     )
@@ -258,12 +261,24 @@ class MembershipRegistration(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name} - {self.membership_type} ({self.status})"
+        return f"{self.full_name} - {self.membership_type} ({self.status})"
 
-    def get_full_name(self):
-        """Return full name"""
-        return f"{self.first_name} {self.last_name}"
+    # def get_full_name(self):
+    #     """Return full name"""
+    #     return f"{self.first_name} {self.last_name}"
 
+    def clean(self):
+        super().clean()
+        if self.date_of_birth:
+            today = date.today()
+            age = today.year - self.date_of_birth.year - (
+                (today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day)
+            )
+            if age < 18:
+                raise ValidationError({
+                    'date_of_birth': 'You must be at least 18 years old to register.'
+                })
+                
     def get_full_address(self):
         """Return formatted full address"""
         parts = [
@@ -302,6 +317,11 @@ class MembershipRegistration(models.Model):
     @property
     def is_rejected(self):
         return self.status == "rejected"
+    
+    def save(self, *args, **kwargs):
+        self.full_clean()  # ensures clean() is called on save
+        super().save(*args, **kwargs)
+
     
 class PolicyCategory(models.Model):
     """Policy Categories"""

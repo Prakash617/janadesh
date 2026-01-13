@@ -1,5 +1,8 @@
 from rest_framework import serializers
 from organization.models import Organization, Leadership, MembershipRegistration, Policy, Donation
+from datetime import date
+from django.core.exceptions import ValidationError
+
 
 # ------------------------
 # Organization Serializer
@@ -27,7 +30,7 @@ class MembershipRegistrationSerializer(serializers.ModelSerializer):
     Serializer for membership registration
     """
     # user_details = serializers.SerializerMethodField(read_only=True)
-    full_name = serializers.CharField(source='get_full_name', read_only=True)
+    # full_name = serializers.CharField(source='get_full_name', read_only=True)
     full_address = serializers.CharField(source='get_full_address', read_only=True)
     
     class Meta:
@@ -37,10 +40,10 @@ class MembershipRegistrationSerializer(serializers.ModelSerializer):
             # 'user',
             # 'user_details',
             'membership_type',
-            'first_name',
-            'last_name',
+            # 'first_name',
             'full_name',
             'father_name',
+            'mother_name',
             'date_of_birth',
             'gender',
             'phone_number',
@@ -74,12 +77,12 @@ class MembershipRegistrationSerializer(serializers.ModelSerializer):
             'updated_at',
         ]
     
-    def get_user_details(self, obj):
-        return {
-            'id': obj.user.id,
-            'username': obj.user.username,
-            'email': obj.user.email,
-        }
+    # def get_user_details(self, obj):
+    #     return {
+    #         'id': obj.user.id,
+    #         'username': obj.user.username,
+    #         'email': obj.user.email,
+    #     }
     
     def validate(self, attrs):
         if not attrs.get('terms_accepted'):
@@ -118,6 +121,13 @@ class MembershipRegistrationSerializer(serializers.ModelSerializer):
                 "Only PDF and image files are allowed."
             )
         
+        return value
+    
+    def validate_date_of_birth(self, value):
+        today = date.today()
+        age = today.year - value.year - ((today.month, today.day) < (value.month, value.day))
+        if age < 18:
+            raise serializers.ValidationError("You must be at least 18 years old to register.")
         return value
 
 

@@ -4,39 +4,6 @@ from django.utils.html import format_html
 
 
 # Register your models here.
-@admin.register(PolicyCategory)
-class PolicyCategoryAdmin(admin.ModelAdmin):
-    list_display = (
-        "name_en",
-        "name_ne",
-        "slug",
-        "order",
-        "is_active",
-        "created_at",
-    )
-
-    list_filter = ("is_active",)
-    list_editable = ("is_active","order")
-    search_fields = ("name_en", "name_ne", "slug")
-    ordering = ("order", "name_en")
-
-    prepopulated_fields = {"slug": ("name_en",)}
-
-    fieldsets = (
-        (None, {
-            "fields": ("name_en", "name_ne", "slug", "icon")
-        }),
-        ("Display Settings", {
-            "fields": ("order", "is_active")
-        }),
-        ("Timestamps", {
-            "fields": ("created_at", "updated_at"),
-            "classes": ("collapse",),
-        }),
-    )
-
-    readonly_fields = ("created_at", "updated_at")
-
 class OrganizationAdmin(admin.ModelAdmin):
     list_display = ('name_en', 'slug', 'email', 'phone', 'website', 'created_at')
     search_fields = ('name_en', 'name_np', 'description_en', 'description_np')
@@ -55,10 +22,10 @@ class OrganizationAdmin(admin.ModelAdmin):
         ('Social Media', {
             'fields': ('facebook', 'twitter', 'instagram', 'youtube')
         }),
-        ('Dates', {
-            'fields': ('created_at', 'updated_at'),
-            'classes': ('collapse',)
-        }),
+        # ('Dates', {
+        #     'fields': ('created_at', 'updated_at'),
+        #     'classes': ('collapse',)
+        # }),
     )
 
 admin.site.register(Organization, OrganizationAdmin)
@@ -77,7 +44,7 @@ class MembershipRegistrationAdmin(admin.ModelAdmin):
     """Admin interface for MembershipRegistration model"""
     
     list_display = [
-        'get_full_name',
+        'full_name',
         'membership_type',
         'email',
         'province',
@@ -96,8 +63,8 @@ class MembershipRegistrationAdmin(admin.ModelAdmin):
     ]
     
     search_fields = [
-        'first_name',
-        'last_name',
+        'full_name',
+        'mother_name',
         'email',
         'phone_number',
         'citizenship_number',
@@ -119,8 +86,8 @@ class MembershipRegistrationAdmin(admin.ModelAdmin):
         }),
         ('Personal Information', {
             'fields': (
-                'first_name',
-                'last_name',
+                'full_name',
+                'mother_name',
                 'father_name',
                 'date_of_birth',
                 'gender',
@@ -171,9 +138,16 @@ class MembershipRegistrationAdmin(admin.ModelAdmin):
     
     actions = ['approve_applications', 'reject_applications']
     
-    def get_full_name(self, obj):
-        return obj.get_full_name()
-    get_full_name.short_description = 'Full Name'
+    def validate_date_of_birth(self, value):
+        today = date.today()
+        age = today.year - value.year - ((today.month, today.day) < (value.month, value.day))
+        if age < 18:
+            raise serializers.ValidationError("You must be at least 18 years old to register.")
+        return value
+    
+    # def get_full_name(self, obj):
+    #     return obj.get_full_name()
+    # get_full_name.short_description = 'Full Name'
     
     def status_badge(self, obj):
         colors = {
@@ -203,14 +177,44 @@ class MembershipRegistrationAdmin(admin.ModelAdmin):
         )
         self.message_user(request, f'{count} application(s) rejected.')
     reject_applications.short_description = 'Reject selected applications'
+    
+@admin.register(PolicyCategory)
+class PolicyCategoryAdmin(admin.ModelAdmin):
+    # Columns shown in the list view
+    list_display = (
+        "name_en",
+        "name_ne",
+        "slug",
+        "order",
+        "is_active",
+        "created_at",
+    )
+    list_filter = ("is_active",)
+    list_editable = ("is_active", "order")
+    search_fields = ("name_en", "name_ne", "slug")
+    ordering = ("order", "name_en")
 
+    # Auto-populate slug
+    prepopulated_fields = {"slug": ("name_en",)}
+
+    # Fields shown in the add/edit form (using fieldsets)
+    fieldsets = (
+        (None, {
+            "fields": ("name_en", "name_ne", "slug", "icon", "order", "is_active")
+        }),
+    )
+
+    # Readonly timestamps
+    # readonly_fields = ("created_at", "updated_at")
 
 class PolicyAdmin(admin.ModelAdmin):
     list_display = ('title', 'category', 'is_featured', 'order', 'created_at')
     list_filter = ('category', 'is_featured')
+    list_editable = ("is_featured", "order")
+
     search_fields = ('title', 'title_ne', 'description', 'description_ne', 'content', 'content_ne')
     prepopulated_fields = {'slug': ('title',)}
-    readonly_fields = ('created_at', 'updated_at')
+    # readonly_fields = ('created_at', 'updated_at')
 
 admin.site.register(Policy, PolicyAdmin)
 
