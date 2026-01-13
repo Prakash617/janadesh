@@ -87,8 +87,8 @@ class MembershipRegistrationAdmin(admin.ModelAdmin):
         ('Personal Information', {
             'fields': (
                 'full_name',
-                'mother_name',
                 'father_name',
+                'mother_name',
                 'date_of_birth',
                 'gender',
                 'phone_number',

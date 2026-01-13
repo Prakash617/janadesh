@@ -137,13 +137,13 @@ class MembershipRegistration(models.Model):
 
     # Personal Information (व्यक्तिगत विवरण)
     full_name = models.CharField(
-        max_length=100, verbose_name="First Name", help_text="User's first name"
+        max_length=100, verbose_name="Full Name", help_text="User's full name"
     )
     father_name = models.CharField(
         max_length=100, verbose_name="Father's Name", help_text="Father's full name"
     )
     mother_name = models.CharField(
-        max_length=100, verbose_name="Last Name", help_text="User's last name"
+        max_length=100, verbose_name="Mother's Name", help_text="Mother's full name"
     )
     date_of_birth = models.DateField(
         verbose_name="Date of Birth", help_text="Birth date in format MM/DD/YYYY"
