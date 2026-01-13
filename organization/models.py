@@ -302,6 +302,39 @@ class MembershipRegistration(models.Model):
     @property
     def is_rejected(self):
         return self.status == "rejected"
+    
+class PolicyCategory(models.Model):
+    """Policy Categories"""
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name_en = models.CharField(max_length=100, unique=True)
+    name_ne = models.CharField(
+        max_length=100, blank=True, verbose_name="Name (Nepali)"
+    )
+    slug = models.SlugField(max_length=150, unique=True, blank=True)
+
+    icon = models.CharField(
+        max_length=100, blank=True, help_text="Icon class or image path"
+    )
+    order = models.PositiveIntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = "policy_categories"
+        verbose_name = "Policy Category"
+        verbose_name_plural = "Policy Categories"
+        ordering = ["order", "name_en"]
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name_en)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name_en
 
 
 class Policy(models.Model):
@@ -326,7 +359,12 @@ class Policy(models.Model):
     icon = models.CharField(
         max_length=100, blank=True, help_text="Icon identifier or path"
     )
-    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
+    # category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
+    category = models.ForeignKey(
+        PolicyCategory,
+        on_delete=models.PROTECT,
+        related_name="policies", blank=True, null=True
+    )
     content = models.TextField(blank=True, help_text="Detailed policy content")
     content_ne = models.TextField(blank=True, verbose_name="Content (Nepali)")
     order = models.IntegerField(default=0)
