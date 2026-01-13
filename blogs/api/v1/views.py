@@ -25,7 +25,7 @@ from drf_spectacular.utils import extend_schema, OpenApiParameter
 class BlogCategoryViewSet(viewsets.ModelViewSet):
     queryset = BlogCategory.objects.all()
     serializer_class = BlogCategorySerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     lookup_field = "slug"
 
 

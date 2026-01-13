@@ -8,7 +8,7 @@ from .serializers import (
     DonationSerializer,
 )
 
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.utils import timezone
@@ -40,7 +40,7 @@ class MembershipRegistrationViewSet(viewsets.ModelViewSet):
     """
     queryset = MembershipRegistration.objects.all()
     serializer_class = MembershipRegistrationSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     filterset_fields = ['status', 'membership_type', 'province']
     search_fields = ['first_name', 'last_name', 'email', 'phone_number']

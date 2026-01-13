@@ -117,6 +117,9 @@ REST_FRAMEWORK = {
         'rest_framework.filters.OrderingFilter',
         'janadesh.filters.LimitFilter',  # your custom limit backend
     ],
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
     
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticatedOrReadOnly",

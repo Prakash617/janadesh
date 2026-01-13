@@ -125,12 +125,7 @@ class MembershipRegistration(models.Model):
     # Primary Key
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
-    # User relationship
-    # user = models.ForeignKey(
-    #     User,
-    #     on_delete=models.CASCADE,
-    #     related_name='memberships'
-    # )
+    
 
     # Membership Information
     membership_type = models.CharField(
@@ -212,7 +207,7 @@ class MembershipRegistration(models.Model):
     )
     motivation = models.TextField(
         verbose_name="Motivation",
-        help_text="Why do you want to join? What are your motivations?",
+        help_text="Why do you want to join? What are your motivations?",blank=True,null=True
     )
 
     # Terms and Conditions

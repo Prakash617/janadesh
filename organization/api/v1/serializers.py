@@ -26,7 +26,7 @@ class MembershipRegistrationSerializer(serializers.ModelSerializer):
     """
     Serializer for membership registration
     """
-    user_details = serializers.SerializerMethodField(read_only=True)
+    # user_details = serializers.SerializerMethodField(read_only=True)
     full_name = serializers.CharField(source='get_full_name', read_only=True)
     full_address = serializers.CharField(source='get_full_address', read_only=True)
     
@@ -35,7 +35,7 @@ class MembershipRegistrationSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             # 'user',
-            'user_details',
+            # 'user_details',
             'membership_type',
             'first_name',
             'last_name',
