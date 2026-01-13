@@ -1,41 +1,42 @@
 from django.contrib import admin
-from .models import Organization, Leadership, MembershipRegistration, Policy, Donation,PolicyCategory
+from .models import Organization, Leadership, MembershipRegistration, Policy, Donation
+# ,PolicyCategory
 from django.utils.html import format_html
 
 
 # Register your models here.
-@admin.register(PolicyCategory)
-class PolicyCategoryAdmin(admin.ModelAdmin):
-    list_display = (
-        "name_en",
-        "name_ne",
-        "slug",
-        "order",
-        "is_active",
-        "created_at",
-    )
+# @admin.register(PolicyCategory)
+# class PolicyCategoryAdmin(admin.ModelAdmin):
+#     list_display = (
+#         "name_en",
+#         "name_ne",
+#         "slug",
+#         "order",
+#         "is_active",
+#         "created_at",
+#     )
 
-    list_filter = ("is_active",)
-    list_editable = ("is_active","order")
-    search_fields = ("name_en", "name_ne", "slug")
-    ordering = ("order", "name_en")
+#     list_filter = ("is_active",)
+#     list_editable = ("is_active","order")
+#     search_fields = ("name_en", "name_ne", "slug")
+#     ordering = ("order", "name_en")
 
-    prepopulated_fields = {"slug": ("name_en",)}
+#     prepopulated_fields = {"slug": ("name_en",)}
 
-    fieldsets = (
-        (None, {
-            "fields": ("name_en", "name_ne", "slug", "icon")
-        }),
-        ("Display Settings", {
-            "fields": ("order", "is_active")
-        }),
-        ("Timestamps", {
-            "fields": ("created_at", "updated_at"),
-            "classes": ("collapse",),
-        }),
-    )
+#     fieldsets = (
+#         (None, {
+#             "fields": ("name_en", "name_ne", "slug", "icon")
+#         }),
+#         ("Display Settings", {
+#             "fields": ("order", "is_active")
+#         }),
+#         ("Timestamps", {
+#             "fields": ("created_at", "updated_at"),
+#             "classes": ("collapse",),
+#         }),
+#     )
 
-    readonly_fields = ("created_at", "updated_at")
+#     readonly_fields = ("created_at", "updated_at")
 
 class OrganizationAdmin(admin.ModelAdmin):
     list_display = ('name_en', 'slug', 'email', 'phone', 'website', 'created_at')
