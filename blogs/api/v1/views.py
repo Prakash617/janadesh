@@ -66,8 +66,7 @@ class BlogViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
-    def perform_create(self, serializer):
-        serializer.save(author=self.request.user, published_at=timezone.now())
+        
 
     @extend_schema(
         parameters=[
