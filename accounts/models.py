@@ -5,6 +5,7 @@ from django.contrib.auth.models import (
     PermissionsMixin,
     BaseUserManager,
 )
+from organization_app.models import Organization, Branch
 
 
 class UserManager(BaseUserManager):
@@ -33,20 +34,13 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     PROVINCE_CHOICES = [
-        ('koshi', 'Koshi'),
-        ('gandaki', 'Gandaki'),
-        ('madhesh', 'Madhesh'),
-        ('bagmati', 'Bagmati'),
-        ('lumbini', 'Lumbini'),
-        ('sudurpashchim', 'Sudurpashchim'),
-        ('karnali', 'Karnali'),
-    ]
-
-    ROLE_CHOICES = [
-        ('admin', 'Admin'),
-        ('member', 'Member'),
-        ('volunteer', 'Volunteer'),
-        ('donor', 'Donor'),
+        ("koshi", "Koshi"),
+        ("gandaki", "Gandaki"),
+        ("madhesh", "Madhesh"),
+        ("bagmati", "Bagmati"),
+        ("lumbini", "Lumbini"),
+        ("sudurpashchim", "Sudurpashchim"),
+        ("karnali", "Karnali"),
     ]
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -54,13 +48,34 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
+
     phone_number = models.CharField(max_length=15, blank=True, null=True)
-    province = models.CharField(max_length=20, choices=PROVINCE_CHOICES, blank=True)
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='member')
+    province = models.CharField(
+        max_length=20,
+        choices=PROVINCE_CHOICES,
+        blank=True,
+        null=True,
+    )
+
+    # ✅ Organization & Branch (RBAC ready)
+    organization = models.ForeignKey(
+        Organization,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="users",
+    )
+    branch = models.ForeignKey(
+        Branch,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="users",
+    )
 
     is_verified = models.BooleanField(default=False)
 
-    # REQUIRED AUTH FIELDS
+    # ✅ Django auth required fields
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
@@ -68,18 +83,22 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = UserManager()
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name']  # email already required
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["first_name", "last_name"]
 
     class Meta:
-        db_table = 'users'
+        db_table = "users"
 
     def __str__(self):
         return self.email
-    
-    @property
-    def username(self):
-        return self.email
+
+    # ✅ Django Admin compatibility
+    def get_full_name(self):
+        return f"{self.first_name} {self.last_name}".strip()
+
+    def get_short_name(self):
+        return self.first_name
+
     @property
     def full_name(self):
-        return self.first_name + ' ' + self.last_name
+        return self.get_full_name()

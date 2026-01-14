@@ -85,6 +85,7 @@ INSTALLED_APPS = [
     'django_filters',
     "page",
     'manifesto',
+    'organization_app'
     
     
 ]
@@ -151,7 +152,9 @@ SPECTACULAR_SETTINGS = {
 
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(days=7),  # access token valid for 30 mins
+    "ACCESS_TOKEN_LIFETIME": timedelta(seconds=30),  # access token valid for 30 sec
+    # "ACCESS_TOKEN_LIFETIME": timedelta(days=7),  # access token valid for 30 mins
+
     "REFRESH_TOKEN_LIFETIME": timedelta(days=30),  # refresh token valid for 1 day
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
