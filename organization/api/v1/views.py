@@ -42,7 +42,7 @@ class MembershipRegistrationViewSet(viewsets.ModelViewSet):
     serializer_class = MembershipRegistrationSerializer
     permission_classes = [AllowAny]
 
-    filterset_fields = ['status', 'membership_type', 'province']
+    filterset_fields = ['status', 'province']
     search_fields = ['first_name', 'last_name', 'email', 'phone_number']
     ordering_fields = ['created_at', 'status']
     ordering = ['-created_at']

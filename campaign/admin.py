@@ -5,10 +5,12 @@ from .models import Campaign, CampaignActivity, Volunteer
 class CampaignAdmin(admin.ModelAdmin):
     list_display = ('title_en', 'start_date', 'end_date', 'status', 'is_featured', 'created_at')
     list_filter = ('status', 'is_featured', 'start_date', 'end_date')
+    list_editable = ('status', 'is_featured')
     search_fields = ('title_en', 'title_np', 'description_en', 'description_np')
     prepopulated_fields = {'slug': ('title_en',)}
     date_hierarchy = 'created_at'
     readonly_fields = ('created_at', 'updated_at')
+    exclude = ('created_at', 'updated_at')
     fieldsets = (
         (None, {
             'fields': ('title_en', 'title_np', 'slug', 'banner', 'description_en', 'description_np', 'goal')
@@ -19,10 +21,10 @@ class CampaignAdmin(admin.ModelAdmin):
         ('Status', {
             'fields': ('status', 'is_featured', 'created_by')
         }),
-        ('Dates', {
-            'fields': ('created_at', 'updated_at'),
-            'classes': ('collapse',)
-        }),
+        # ('Dates', {
+        #     'fields': ('created_at', 'updated_at'),
+        #     'classes': ('collapse',)
+        # }),
     )
 
 admin.site.register(Campaign, CampaignAdmin)
@@ -38,9 +40,10 @@ class CampaignActivityAdmin(admin.ModelAdmin):
 admin.site.register(CampaignActivity, CampaignActivityAdmin)
 
 class VolunteerAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'phone', 'campaign', 'is_active', 'created_at')
-    list_filter = ('is_active', 'campaign')
+    list_display = ('name','membership_type', 'email', 'phone', 'campaign', 'created_at')
+    list_filter = ('campaign', 'membership_type')
     search_fields = ('name', 'email', 'phone', 'address', 'skills')
-    readonly_fields = ('created_at', 'updated_at')
+    # readonly_fields = ('created_at', 'updated_at')
+    exclude = ('created_at', 'updated_at')
 
 admin.site.register(Volunteer, VolunteerAdmin)

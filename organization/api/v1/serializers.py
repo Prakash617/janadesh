@@ -39,7 +39,7 @@ class MembershipRegistrationSerializer(serializers.ModelSerializer):
             'id',
             # 'user',
             # 'user_details',
-            'membership_type',
+            # 'membership_type',
             # 'first_name',
             'full_name',
             'father_name',

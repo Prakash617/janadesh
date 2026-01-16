@@ -24,6 +24,7 @@ class Campaign(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='upcoming')
     goal = models.TextField(blank=True, null=True)
     is_featured = models.BooleanField(default=False)
+    # is_active = models.BooleanField(default=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -72,15 +73,24 @@ class CampaignActivity(models.Model):
 
 
 class Volunteer(models.Model):
+    MEMBERSHIP_TYPE_CHOICES = [
+        ("member", "Member"),
+        ("volunteer", "Volunteer"),
+        ("donor", "Donor"),
+    ]
+
     """Volunteer management"""
     name = models.CharField(max_length=255)
     email = models.EmailField()
     phone = models.CharField(max_length=20)
     address = models.TextField()
+    membership_type = models.CharField(
+        max_length=20,default="member", choices=MEMBERSHIP_TYPE_CHOICES, verbose_name="Membership Type"
+    )
     campaign = models.ForeignKey(Campaign, on_delete=models.SET_NULL, null=True, blank=True, related_name='volunteers')
     skills = models.TextField(blank=True, null=True)
     availability = models.TextField(blank=True, null=True)
-    is_active = models.BooleanField(default=True)
+    # is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

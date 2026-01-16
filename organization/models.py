@@ -97,11 +97,7 @@ class MembershipRegistration(models.Model):
     Membership registration applications with complete user details
     """
 
-    MEMBERSHIP_TYPE_CHOICES = [
-        ("member", "Member"),
-        ("volunteer", "Volunteer"),
-        ("donor", "Donor"),
-    ]
+    
 
     PROVINCE_CHOICES = [
         ("koshi", "Koshi"),
@@ -131,9 +127,9 @@ class MembershipRegistration(models.Model):
     
 
     # Membership Information
-    membership_type = models.CharField(
-        max_length=20, choices=MEMBERSHIP_TYPE_CHOICES, verbose_name="Membership Type"
-    )
+    # membership_type = models.CharField(
+    #     max_length=20, choices=MEMBERSHIP_TYPE_CHOICES, verbose_name="Membership Type"
+    # )
 
     # Personal Information (व्यक्तिगत विवरण)
     full_name = models.CharField(
@@ -256,12 +252,12 @@ class MembershipRegistration(models.Model):
         ordering = ["-created_at"]
         indexes = [
             models.Index(fields=["status", "-created_at"]),
-            models.Index(fields=["membership_type", "status"]),
+            # models.Index(fields=["membership_type", "status"]),
             models.Index(fields=["province", "district"]),
         ]
 
     def __str__(self):
-        return f"{self.full_name} - {self.membership_type} ({self.status})"
+        return f"{self.full_name} -  {self.status}"
 
     # def get_full_name(self):
     #     """Return full name"""

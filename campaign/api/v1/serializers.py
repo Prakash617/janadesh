@@ -34,6 +34,14 @@ class CampaignActivitySerializer(serializers.ModelSerializer):
 # -------------------------------
 class VolunteerSerializer(serializers.ModelSerializer):
     campaign_info = serializers.SerializerMethodField()
+    campaign_slug = serializers.SlugRelatedField(
+        slug_field="slug",
+        queryset=Campaign.objects.all(),
+        source="campaign",
+        write_only=True,
+        required=False,
+        allow_null=True
+    )
     
     class Meta:
         model = Volunteer
@@ -43,10 +51,12 @@ class VolunteerSerializer(serializers.ModelSerializer):
             "email",
             "phone",
             "address",
+            'membership_type',
+            'campaign_slug',
             "campaign_info",
             "skills",
             "availability",
-            "is_active",
+            # "is_active",
             "created_at",
             "updated_at",
         ]

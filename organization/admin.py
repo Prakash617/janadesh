@@ -45,7 +45,7 @@ class MembershipRegistrationAdmin(admin.ModelAdmin):
     
     list_display = [
         'full_name',
-        'membership_type',
+        # 'membership_type',
         'email',
         'province',
         'district',
@@ -55,7 +55,7 @@ class MembershipRegistrationAdmin(admin.ModelAdmin):
     
     list_filter = [
         'status',
-        'membership_type',
+        # 'membership_type',
         'province',
         'gender',
         'created_at',
@@ -81,8 +81,16 @@ class MembershipRegistrationAdmin(admin.ModelAdmin):
     ]
     
     fieldsets = (
-        ('Membership Information', {
-            'fields': ('membership_type', 'status')
+        # ('Membership Information', {
+        #     'fields': ('membership_type', 'status')
+        # }),
+        ('Approval Information', {
+            'fields': (
+                'status',
+                'approved_by',
+                'approved_at',
+                'rejection_reason',
+            )
         }),
         ('Personal Information', {
             'fields': (
@@ -120,13 +128,7 @@ class MembershipRegistrationAdmin(admin.ModelAdmin):
                 # 'terms_accepted',
             )
         }),
-        ('Approval Information', {
-            'fields': (
-                'approved_by',
-                'approved_at',
-                'rejection_reason',
-            )
-        }),
+        
         # ('Timestamps', {
         #     'fields': ('created_at', 'updated_at'),
         #     'classes': ('collapse',)
