@@ -32,6 +32,7 @@ import analytics.api.v1.urls
 import timelines.api.v1.urls
 import page.api.v1.urls
 import manifesto.api.v1.urls
+import website.api.v1.urls
 
 
 # ------------------------------------------------------------------------------
@@ -48,6 +49,7 @@ urlpatterns = [
     # path("campaign/", include("campaign.api.v1.urls")),
     path("menu/", include("menu.urls")),
     path("organization/", include("organization.urls")),
+    # path("website/", include("webiste.urls")),
     path("seo/", include("seo.urls")),
     # path("services/", include("services.urls")),
 

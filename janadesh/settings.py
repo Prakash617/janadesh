@@ -85,7 +85,8 @@ INSTALLED_APPS = [
     'django_filters',
     "page",
     'manifesto',
-    'organization_app'
+    'organization_app',
+    'website',
     
     
 ]
