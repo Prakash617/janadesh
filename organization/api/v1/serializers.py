@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from organization.models import Organization, Leadership, MembershipRegistration, Policy, Donation,PolicyCategory
+from organization.models import Leadership, MembershipRegistration, Policy, Donation,PolicyCategory
 from datetime import date
 from django.core.exceptions import ValidationError
 
@@ -7,10 +7,10 @@ from django.core.exceptions import ValidationError
 # ------------------------
 # Organization Serializer
 # ------------------------
-class OrganizationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Organization
-        fields = "__all__"
+# class OrganizationSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Organization
+#         fields = "__all__"
 
 
 # ------------------------

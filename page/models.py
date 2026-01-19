@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from django.urls import reverse
+from django.conf import settings
 
 
 class Page(models.Model):
@@ -66,7 +67,10 @@ class Page(models.Model):
     
     def get_absolute_url(self):
         """Return the URL for this page"""
-        return reverse('page_detail', kwargs={'slug': self.slug})
+        return reverse('page-detail', kwargs={'slug': self.slug})
+    
+    def get_full_url(self):
+        return f"{settings.SITE_URL}{self.get_absolute_url()}"
     
     @property
     def is_published(self):

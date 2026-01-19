@@ -234,7 +234,7 @@ class EmailHelper:
             bool: True if email was sent successfully
         """
         admin_email = admin_email or getattr(settings, 'ADMIN_EMAIL', 
-                                             settings.DEFAULT_FROM_EMAIL)
+                                            settings.DEFAULT_FROM_EMAIL)
         
         context = {
             'sender_name': name,

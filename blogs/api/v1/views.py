@@ -43,7 +43,7 @@ class BlogTagViewSet(viewsets.ModelViewSet):
 # BLOG
 # ============================
 class BlogViewSet(viewsets.ModelViewSet):
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     lookup_field = "slug"
     lookup_url_kwarg = "slug"
     filter_backends = [DjangoFilterBackend, LimitFilter]
@@ -131,7 +131,7 @@ class BlogViewSet(viewsets.ModelViewSet):
 # COMMENT
 # ============================
 class CommentViewSet(viewsets.ModelViewSet):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
         return (

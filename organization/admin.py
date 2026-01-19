@@ -1,34 +1,34 @@
 from django.contrib import admin
-from .models import Organization, Leadership, MembershipRegistration, Policy, Donation,PolicyCategory
+from .models import  Leadership, MembershipRegistration, Policy, Donation,PolicyCategory
 from django.utils.html import format_html
 
 
 # Register your models here.
-class OrganizationAdmin(admin.ModelAdmin):
-    list_display = ('name_en', 'slug', 'email', 'phone', 'website', 'created_at')
-    search_fields = ('name_en', 'name_np', 'description_en', 'description_np')
-    prepopulated_fields = {'slug': ('name_en',)}
-    readonly_fields = ('created_at', 'updated_at')
-    fieldsets = (
-        (None, {
-            'fields': ('name_en', 'name_np', 'slug', 'logo', 'banner', 'description_en', 'description_np')
-        }),
-        ('Details', {
-            'fields': ('established_date', 'manifesto_en', 'manifesto_np', 'manifesto_document')
-        }),
-        ('Contact', {
-            'fields': ('email', 'phone', 'address_en', 'address_np', 'website')
-        }),
-        ('Social Media', {
-            'fields': ('facebook', 'twitter', 'instagram', 'youtube')
-        }),
-        # ('Dates', {
-        #     'fields': ('created_at', 'updated_at'),
-        #     'classes': ('collapse',)
-        # }),
-    )
+# class OrganizationAdmin(admin.ModelAdmin):
+#     list_display = ('name_en', 'slug', 'email', 'phone', 'website', 'created_at')
+#     search_fields = ('name_en', 'name_np', 'description_en', 'description_np')
+#     prepopulated_fields = {'slug': ('name_en',)}
+#     readonly_fields = ('created_at', 'updated_at')
+#     fieldsets = (
+#         (None, {
+#             'fields': ('name_en', 'name_np', 'slug', 'logo', 'banner', 'description_en', 'description_np')
+#         }),
+#         ('Details', {
+#             'fields': ('established_date', 'manifesto_en', 'manifesto_np', 'manifesto_document')
+#         }),
+#         ('Contact', {
+#             'fields': ('email', 'phone', 'address_en', 'address_np', 'website')
+#         }),
+#         ('Social Media', {
+#             'fields': ('facebook', 'twitter', 'instagram', 'youtube')
+#         }),
+#         # ('Dates', {
+#         #     'fields': ('created_at', 'updated_at'),
+#         #     'classes': ('collapse',)
+#         # }),
+#     )
 
-admin.site.register(Organization, OrganizationAdmin)
+# admin.site.register(Organization, OrganizationAdmin)
 
 class LeadershipAdmin(admin.ModelAdmin):
     list_display = ('name_en', 'position_en', 'member_type', 'is_featured', 'is_active', 'order')

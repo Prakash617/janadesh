@@ -10,7 +10,8 @@ class AnalyticsEventAdmin(admin.ModelAdmin):
     list_display = ('event_type', 'object_type', 'object_id', 'url', 'ip_address', 'created_at')
     list_filter = ('event_type', 'object_type', 'created_at')
     readonly_fields = ('event_type', 'object_type', 'object_id', 'url', 'referrer', 'ip_address', 'user_agent', 'session_id', 'language', 'country', 'city', 'created_at')
-
+    # list_per_page = 10 
+    
     change_list_template = "admin/analytics_dashboard.html"
 
     def changelist_view(self, request, extra_context=None):

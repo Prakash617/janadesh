@@ -1,6 +1,6 @@
 from janadesh.api.router import router
 from .views import (
-    OrganizationViewSet,
+    # OrganizationViewSet,
     LeadershipViewSet,
     MembershipRegistrationViewSet,
     PolicyViewSet,
@@ -9,7 +9,7 @@ from .views import (
 
 
 # Register all routes with the shared router
-router.register("organizations", OrganizationViewSet, basename="organization")
+# router.register("organizations", OrganizationViewSet, basename="organization")
 router.register("leadership", LeadershipViewSet, basename="leadership")
 router.register("membership-registrations", MembershipRegistrationViewSet, basename="membership-registration")
 router.register("policies", PolicyViewSet, basename="policy")

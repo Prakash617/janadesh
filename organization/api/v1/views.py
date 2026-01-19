@@ -1,7 +1,7 @@
 from rest_framework import viewsets,status
-from organization.models import Organization, Leadership, MembershipRegistration, Policy, Donation
+from organization.models import  Leadership, MembershipRegistration, Policy, Donation
 from .serializers import (
-    OrganizationSerializer,
+    # OrganizationSerializer,
     LeadershipSerializer,
     MembershipRegistrationSerializer,
     PolicySerializer,
@@ -18,10 +18,10 @@ from django.utils import timezone
 # ------------------------
 # Organization ViewSet
 # ------------------------
-class OrganizationViewSet(viewsets.ModelViewSet):
-    queryset = Organization.objects.all()
-    serializer_class = OrganizationSerializer
-    lookup_field = 'slug'  # use slug in URLs instead of ID
+# class OrganizationViewSet(viewsets.ModelViewSet):
+#     queryset = Organization.objects.all()
+#     serializer_class = OrganizationSerializer
+#     lookup_field = 'slug'  # use slug in URLs instead of ID
 
 # ------------------------
 # Leadership ViewSet

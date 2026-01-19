@@ -5,15 +5,26 @@ from .models import Menu, MenuItem
 
 class MenuItemInline(admin.StackedInline):
     model = MenuItem
-    extra = 1
-    fields = ('label_en', 'label_np', 'title','sub_title', 'url', 'order', 'icon', 'is_external', 'open_new_tab', 'is_active')
-    # raw_id_fields = ('parent',)
+    extra = 0
+    autocomplete_fields = ["page"]
+    fields = (
+        "label_en",
+        "page",
+        "url",
+        "parent",
+        "order",
+        "icon",
+        "is_external",
+        "open_new_tab",
+        "is_active",
+    )
+    ordering = ("order",)
 
 class MenuAdmin(admin.ModelAdmin):
     list_display = ('name', 'location', 'is_active', 'created_at')
     list_filter = ('location', 'is_active')
     search_fields = ('name',)
-    readonly_fields = ('created_at', 'updated_at')
+    exclude = ('created_at', 'updated_at')
     inlines = [MenuItemInline]
 
 admin.site.register(Menu, MenuAdmin)

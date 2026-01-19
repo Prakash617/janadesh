@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 from pathlib import Path
 from datetime import timedelta
 from decouple import config
+from janadesh.DASHUB_SETTINGS import DASHUB_SETTINGS
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -26,15 +27,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-=x&^+qdz4x0_qe4vt16u^+j@fcr_@91p%i=*s(iy=j#e5)(s*@"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = config("DEBUG", default=False, cast=bool)
 
 ALLOWED_HOSTS = ["*"]
 
-AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = "accounts.User"
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
+    "django.contrib.auth.backends.ModelBackend",
 ]
-
 
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
@@ -45,10 +45,12 @@ CORS_ALLOWED_ORIGINS = [
     "https://janadesh.gowell.edu.np",
 ]
 
+SITE_URL = "http://localhost:3000" if DEBUG else "https://janadesh.gowell.edu.np"
+
+
 CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SECURE = False
 CORS_ALLOW_SAME_ORIGIN = True
-
 
 
 # Application definition
@@ -61,16 +63,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     "rest_framework",
     "rest_framework_simplejwt",
-    'drf_spectacular',
-    
+    "drf_spectacular",
     "tinymce",
     "filehub",
     "corsheaders",
-    
-    'accounts',
+    "accounts",
     "analytics.apps.AnalyticsConfig",
     "blogs",
     "campaign",
@@ -82,21 +81,18 @@ INSTALLED_APPS = [
     "services",
     "timelines",
     "newsletters",
-    'django_filters',
+    "django_filters",
     "page",
-    'manifesto',
-    'organization_app',
-    'website',
-    
-    
+    "manifesto",
+    "organization_app",
+    "website",
 ]
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-
-    'analytics.middleware.AnalyticsMiddleware',
+    "analytics.middleware.AnalyticsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -106,62 +102,53 @@ MIDDLEWARE = [
 
 REST_FRAMEWORK = {
     # OpenAPI / schema
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
-
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     # API versioning
-    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning',
-    'DEFAULT_VERSION': 'v1',
-    'ALLOWED_VERSIONS': ['v1', 'v2'],
-    'VERSION_PARAM': 'version',
-
+    "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.URLPathVersioning",
+    "DEFAULT_VERSION": "v1",
+    "ALLOWED_VERSIONS": ["v1", "v2"],
+    "VERSION_PARAM": "version",
     # Default filter backends
-    'DEFAULT_FILTER_BACKENDS': [
-        'django_filters.rest_framework.DjangoFilterBackend',
-        'rest_framework.filters.SearchFilter',
-        'rest_framework.filters.OrderingFilter',
-        'janadesh.filters.LimitFilter',  # your custom limit backend
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend",
+        "rest_framework.filters.SearchFilter",
+        "rest_framework.filters.OrderingFilter",
+        "janadesh.filters.LimitFilter",  # your custom limit backend
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
-    
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticatedOrReadOnly",
     ],
-
     # Default pagination
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10,  # default items per page
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 10,  # default items per page
 }
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(seconds=10),  # access token valid for 30 sec
     # "ACCESS_TOKEN_LIFETIME": timedelta(days=7),  # access token valid for 30 mins
-
     "REFRESH_TOKEN_LIFETIME": timedelta(days=30),  # refresh token valid for 1 day
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
 }
 
 
-
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Janadesh API',
-    'DESCRIPTION': 'API for Janadesh, a platform for political engagement and information dissemination.',
-    'VERSION': '1.0.0',
-    'SERVE_INCLUDE_SCHEMA': False,
-
+    "TITLE": "Janadesh API",
+    "DESCRIPTION": "API for Janadesh, a platform for political engagement and information dissemination.",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
     # Optional but useful
-    'COMPONENT_SPLIT_REQUEST': True,
-    'SORT_OPERATIONS': False,
+    "COMPONENT_SPLIT_REQUEST": True,
+    "SORT_OPERATIONS": False,
     # fix enum naming collisions
     "ENUM_NAME_OVERRIDES": {
         "Blog.status": "BlogStatusEnum",
         "Contact.status": "ContactStatusEnum",
     },
 }
-
-
 
 
 ROOT_URLCONF = "janadesh.urls"
@@ -218,12 +205,12 @@ if DEBUG:
     }
 else:
     # Production database (from .env)
-   DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
-}
 
 
 # Password validation
@@ -272,94 +259,12 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='your_email@example.com')  # Your email
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='your_email_password') 
+EMAIL_HOST_USER = config(
+    "EMAIL_HOST_USER", default="your_email@example.com"
+)  # Your email
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="your_email_password")
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-DASHUB_SETTINGS = {
-    "site_logo": "/static/img/logo_janadesh.webp",
-    "site_icon": "/static/favicon.ico",
-    "theme_color": "#1E72B7",
-    "border_radius": "5px",
-    "hide_models": [
-        # "auth",  # Hides all models in the auth app
-        # "auth.group",  # Hides the group model in the auth app
-        'blogs.comment',
-    ],
-    "custom_links": {
-        "auth": [
-            {"model": "auth.post"},  # Links directly to the auth.post model
-            {
-                "name": "User Management",
-                "icon": "fa-solid fa-users",
-                "submenu": [
-                    {"model": "auth.user", "order": 1},
-                    {"model": "auth.group", "order": 2},
-                ],
-            },
-        ],
-        "advance": [
-            {
-                "name": "File Manager",
-                "url": "/filemanager/",
-                "icon": "hgi hgi-stroke hgi-folder-cloud",
-                "order": 1,
-            },
-        ],
-    },
-    "submenus_models": ["auth.group"],
-    "default_orders": {
-        "auth": 10,
-        "auth.group": 4,
-    },
-    "icons": {
-    "auth.user": "hgi hgi-stroke hgi-user-sharing",
-    "auth.group": "hgi hgi-stroke hgi-user-group-03",
-    "analytics.analyticsevent": "hgi hgi-stroke hgi-chart-bar",
-    "blogs.blogcategory": "hgi hgi-stroke hgi-calendar-02",
-    "blogs.blogtag": "hgi hgi-stroke hgi-tag-01",
-    "blogs.blog": "hgi hgi-stroke hgi-license",
-    "blogs.comment": "hgi hgi-stroke hgi-comment-01",
-    "campaign.campaign": "hgi hgi-stroke hgi-megaphone-01",
-    "campaign.campaignactivity": "hgi hgi-stroke hgi-activity-01",
-    "campaign.volunteer": "hgi hgi-stroke hgi-add-male",
-    "contacts.contact": "hgi hgi-stroke hgi-contact-01",
-    "galleries.gallery": "hgi hgi-stroke hgi-image-01",
-    "galleries.galleryimage": "hgi hgi-stroke hgi-image-plus",
-    "menu.menu": "hgi hgi-stroke hgi-menu-01",
-    "menu.menuitem": "hgi hgi-stroke hgi-list",
-    "organization.organization": "hgi hgi-stroke hgi-drawing-compass",
-    "organization.leadership": "hgi hgi-stroke hgi-user-group",
-    "organization.membershipregistration": "hgi hgi-stroke hgi-user-add-01",
-    "organization.policy": "hgi hgi-stroke hgi-policy",
-    "organization.donation": "hgi hgi-stroke hgi-wallet-01",
-    "seo.seometadata": "hgi hgi-stroke hgi-globe",
-    "services.service": "hgi hgi-stroke hgi-service",
-    "timelines.timeline": "hgi hgi-stroke hgi-timeline",
-    "newsletters.newslettersubscription": "hgi hgi-stroke hgi-news-01",
-},
-
-    "custom_js": [
-        "/static/js/admin.js",
-    ],
-    "custom_css": [
-        "/static/css/admin.css",
-    ],
-}
 
 
 TINYMCE_JS_URL = "https://cdnjs.cloudflare.com/ajax/libs/tinymce/7.5.1/tinymce.min.js"

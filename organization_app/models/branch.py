@@ -16,4 +16,4 @@ class Branch(models.Model):
         unique_together = ("organization", "name")
 
     def __str__(self):
-        return f"{self.name} ({self.organization.name})"
+        return f"{self.name} ({self.organization.name_en})"
