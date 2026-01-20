@@ -41,7 +41,7 @@ class EmailHelper:
     
     @staticmethod
     def send_template_email(subject, template_name, context, recipient_list, 
-                          from_email=None, attachments=None):
+                        from_email=None, attachments=None):
         """
         Send an HTML email using a Django template
         

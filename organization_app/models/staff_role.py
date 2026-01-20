@@ -16,5 +16,9 @@ class StaffRole(models.Model):
 
     assigned_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name = "Staff Role"
+        verbose_name_plural = "Staff Role"
+
     def __str__(self):
         return f"{self.user} → {self.role}"

@@ -1,0 +1,22 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static dashub %}
+
+{% block bodyclass %}{{ block.super }} dashboard{% endblock %}
+
+{% block content_title %}📊 {% trans 'Analytics Dashboard ' %} {% endblock %}
+
+{% comment %} {% block breadcrumbs %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'admin:index' %}">{% trans 'Home' %}</a></li>
+        <li class="breadcrumb-item">{% trans 'Dashboard' %}dddddd</li>
+    </ol>
+{% endblock %} {% endcomment %}
+
+
+{% block content %}
+<iframe
+        src="{% url 'admin:analytics-dashboard' %}"
+        style="width:100%; height:80vh; border:none;"
+        loading="lazy"
+    ></iframe>
+{% endblock %}

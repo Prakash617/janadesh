@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.urls import reverse
+from django.utils.html import format_html
 from .models import SEOMetadata
 
 
@@ -9,14 +11,15 @@ class SEOMetadataAdmin(admin.ModelAdmin):
 
     list_display = (
         "id",
-        "content_type",
-        "object_id",
+        # "content_type",
+        # "object_id",
         "meta_title_en",
-        "robots",
+        # "robots",
         "updated_at",
+        "action_buttons",
     )
 
-    list_filter = ("content_type", "robots")
+    # list_filter = ["content_type"]
 
     search_fields = (
         "meta_title_en",
@@ -25,13 +28,13 @@ class SEOMetadataAdmin(admin.ModelAdmin):
         "meta_description_np",
         "keywords",
     )
-
+    exclude = ("robots",)
     readonly_fields = ("created_at", "updated_at")
 
     fieldsets = (
-        ("Target Object", {
-            "fields": ("content_type", "object_id"),
-        }),
+        # ("Target Object", {
+        #     "fields": ("content_type", "object_id"),
+        # }),
         ("Meta (EN)", {
             "fields": ("meta_title_en", "meta_description_en"),
         }),
@@ -48,9 +51,18 @@ class SEOMetadataAdmin(admin.ModelAdmin):
             ),
         }),
         ("SEO Advanced", {
-            "fields": ("keywords", "canonical_url", "robots"),
+            "fields": ("keywords", "canonical_url"),
         }),
         # ("Timestamps", {
         #     "fields": ("created_at", "updated_at"),
         # }),
     )
+
+    def action_buttons(self, obj):
+        edit_url = reverse('admin:seo_seometadata_change', args=[obj.id])
+        return format_html(
+            '<a href="{}" style="padding:4px 10px; background-color:#28A745; color:white; '
+            'border-radius:5px; text-decoration:none; margin-right:5px; font-weight:bold;">Edit</a>',
+            edit_url
+        )
+    action_buttons.short_description = 'Actions'

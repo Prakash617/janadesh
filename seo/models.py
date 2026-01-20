@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
+from tinymce.models import HTMLField
 
 class SEOMetadata(models.Model):
     """SEO metadata for any model"""
@@ -19,14 +20,14 @@ class SEOMetadata(models.Model):
     # SEO fields
     meta_title_en = models.CharField(max_length=255, blank=True, null=True)
     meta_title_np = models.CharField(max_length=255, blank=True, null=True)
-    meta_description_en = models.TextField(blank=True, null=True)
-    meta_description_np = models.TextField(blank=True, null=True)
-    keywords = models.TextField(blank=True, null=True)
+    meta_description_en = HTMLField(blank=True, null=True)
+    meta_description_np = HTMLField(blank=True, null=True)
+    keywords = HTMLField(blank=True, null=True)
 
     og_title_en = models.CharField(max_length=255, blank=True, null=True)
     og_title_np = models.CharField(max_length=255, blank=True, null=True)
-    og_description_en = models.TextField(blank=True, null=True)
-    og_description_np = models.TextField(blank=True, null=True)
+    og_description_en = HTMLField(blank=True, null=True)
+    og_description_np = HTMLField(blank=True, null=True)
     og_image = models.ImageField(upload_to='seo/seometadata/', null=True, blank=True)
 
     canonical_url = models.URLField(blank=True, null=True)
@@ -38,6 +39,8 @@ class SEOMetadata(models.Model):
     class Meta:
         db_table = "seo_metadata"
         unique_together = ("content_type", "object_id")
+        verbose_name = "SEO Metadata"
+        verbose_name_plural = "SEO Metadata"
         indexes = [
             models.Index(fields=["content_type", "object_id"]),
         ]

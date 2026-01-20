@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from tinymce.models import HTMLField
 
 # Create your models here.
 class Campaign(models.Model):
@@ -14,15 +15,15 @@ class Campaign(models.Model):
     title_en = models.CharField(max_length=255)
     title_np = models.CharField(max_length=255, blank=True, null=True)
     slug = models.SlugField(max_length=255, unique=True)
-    description_en = models.TextField()
-    description_np = models.TextField(blank=True, null=True)
+    description_en = HTMLField(blank=True, null=True)
+    description_np = HTMLField(blank=True, null=True)
     banner = models.ImageField(upload_to='campaign/campaign/', null=True, blank=True)
     start_date = models.DateField()
     end_date = models.DateField()
     region_en = models.CharField(max_length=255, blank=True, null=True)
     region_np = models.CharField(max_length=255, blank=True, null=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='upcoming')
-    goal = models.TextField(blank=True, null=True)
+    goal = HTMLField(blank=True, null=True)
     is_featured = models.BooleanField(default=False)
     # is_active = models.BooleanField(default=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
@@ -32,6 +33,8 @@ class Campaign(models.Model):
     class Meta:
         db_table = 'campaigns'
         ordering = ['-start_date']
+        verbose_name = 'Campaign'
+        verbose_name_plural = 'Campaign'
 
     def __str__(self):
         return self.title_en
@@ -50,8 +53,8 @@ class CampaignActivity(models.Model):
     campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE, related_name='activities')
     title_en = models.CharField(max_length=255)
     title_np = models.CharField(max_length=255, blank=True, null=True)
-    description_en = models.TextField(blank=True, null=True)
-    description_np = models.TextField(blank=True, null=True)
+    description_en = HTMLField(blank=True, null=True)
+    description_np = HTMLField(blank=True, null=True)
     activity_type = models.CharField(max_length=20, choices=ACTIVITY_TYPE_CHOICES)
     location_en = models.CharField(max_length=255)
     location_np = models.CharField(max_length=255, blank=True, null=True)
@@ -66,7 +69,8 @@ class CampaignActivity(models.Model):
     class Meta:
         db_table = 'campaign_activities'
         ordering = ['-date']
-        verbose_name_plural = 'Campaign Activities'
+        verbose_name = 'Campaign Activity'
+        verbose_name_plural = 'Campaign Activity'
 
     def __str__(self):
         return f"{self.campaign.title_en} - {self.title_en}"
@@ -83,13 +87,13 @@ class Volunteer(models.Model):
     name = models.CharField(max_length=255)
     email = models.EmailField()
     phone = models.CharField(max_length=20)
-    address = models.TextField()
+    address = HTMLField(blank=True, null=True)
     membership_type = models.CharField(
         max_length=20,default="member", choices=MEMBERSHIP_TYPE_CHOICES, verbose_name="Membership Type"
     )
     campaign = models.ForeignKey(Campaign, on_delete=models.SET_NULL, null=True, blank=True, related_name='volunteers')
-    skills = models.TextField(blank=True, null=True)
-    availability = models.TextField(blank=True, null=True)
+    skills = HTMLField(blank=True, null=True)
+    availability = HTMLField(blank=True, null=True)
     # is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -97,6 +101,8 @@ class Volunteer(models.Model):
     class Meta:
         db_table = 'volunteers'
         ordering = ['-created_at']
+        verbose_name = 'Volunteer'
+        verbose_name_plural = 'Volunteer'
 
     def __str__(self):
         return self.name

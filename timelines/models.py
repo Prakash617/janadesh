@@ -1,4 +1,5 @@
 from django.db import models
+from tinymce.models import HTMLField
 
 # Create your models here.
 class Timeline(models.Model):
@@ -7,8 +8,8 @@ class Timeline(models.Model):
     month = models.IntegerField(blank=True, null=True, help_text="Month (1-12)")
     title_en = models.CharField(max_length=255)
     title_np = models.CharField(max_length=255, blank=True, null=True)
-    description_en = models.TextField()
-    description_np = models.TextField(blank=True, null=True)
+    description_en = HTMLField(blank=True, null=True)
+    description_np = HTMLField(blank=True, null=True)
     image = models.ImageField(upload_to='timelines/timeline/', null=True, blank=True)
     is_milestone = models.BooleanField(default=False)  # it is for major events
     order = models.IntegerField(default=0)
@@ -18,6 +19,8 @@ class Timeline(models.Model):
     class Meta:
         db_table = 'timeline'
         ordering = ['-year', '-month', 'order']
+        verbose_name = 'Timeline'
+        verbose_name_plural = 'Timeline'
 
     def __str__(self):
         return f"{self.year} - {self.title_en}"

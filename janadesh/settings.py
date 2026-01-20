@@ -56,6 +56,7 @@ CORS_ALLOW_SAME_ORIGIN = True
 # Application definition
 
 INSTALLED_APPS = [
+    "analytics.apps.AnalyticsConfig",
     "dashub",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -70,7 +71,7 @@ INSTALLED_APPS = [
     "filehub",
     "corsheaders",
     "accounts",
-    "analytics.apps.AnalyticsConfig",
+    
     "blogs",
     "campaign",
     "contacts",
@@ -265,64 +266,32 @@ EMAIL_HOST_USER = config(
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="your_email_password")
 
 
-
-
 TINYMCE_JS_URL = "https://cdnjs.cloudflare.com/ajax/libs/tinymce/7.5.1/tinymce.min.js"
 TINYMCE_DEFAULT_CONFIG = {
     "promotion": False,
     "menubar": "file edit view insert format tools table",
     "plugins": "codesample link media image code fullscreen filehub table autolink advlist lists autoresize emoticons "
-    "wordcount questionshortcode",
+            "wordcount",
     "toolbar": [
-        "bold italic underline strikethrough questionshortcode | forecolor blocks | subscript superscript | list "
+        "bold italic underline strikethrough | forecolor blocks | subscript superscript | list "
         "bullist numlist blockquote | alignleft aligncenter alignright alignjustify | autolink link table ",
         "formatselect autolink | subscript superscript | outdent indent | filehub image media emoticons | ",
-        "wordcount codesample fullscreen code",
+        "wordcount codesample fullscreen code"
     ],
     "image_advtab": False,
-    "external_filemanager_path": "/filehub/select/",
+    "external_filemanager_path": "/admin/filehub/select/",
     "filemanager_title": "Filemanager",
     "external_plugins": {
-        # "filehub": "/static/filehub/tinymce/plugin.js",
         "filehub": "/static/filehub/tinymce/plugin.min.js",
-        "questionshortcode": "/static/admin/tinymce/questionshortcode/plugin.js",
     },
     "relative_urls": False,
     "remove_script_host": False,
     "toolbar_sticky": True,
     "image_dimensions": False,
-    "noneditable_noneditable_class": "alert",
+    "noneditable_noneditable_class": 'alert',
     "min_height": 300,
     "license_key": "gpl",
-    "content_css": ["/static/assets/css/tinymce.css"],
-    "setup": """function (editor) {
-        editor.on('PastePreProcess', function(e) {
-            const div = document.createElement("div");
-            div.innerHTML = e.content;
-
-            function cleanNode(node) {
-                if (node.nodeType === 1) {
-                    while (node.attributes.length > 0) {
-                        node.removeAttribute(node.attributes[0].name);
-                    }
-                    for (let i = 0; i < node.childNodes.length; i++) {
-                        cleanNode(node.childNodes[i]);
-                    }
-                } else if (node.nodeType === 8) {
-                    node.parentNode.removeChild(node);
-                }
-            }
-
-            cleanNode(div);
-            e.content = div.innerHTML;
-        });
-    }""",
-}
-
-TINYMCE_EXTRA_MEDIA = {
-    "css": {
-        "all": [
-            "/static/assets/css/tinymce.css",
-        ]
-    }
+    "content_css": [
+        "/static/assets/css/tinymce.css"
+    ],
 }

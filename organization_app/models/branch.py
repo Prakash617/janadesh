@@ -1,5 +1,6 @@
 import uuid
 from django.db import models
+from tinymce.models import HTMLField
 
 
 class Branch(models.Model):
@@ -10,10 +11,12 @@ class Branch(models.Model):
         related_name="branches"
     )
     name = models.CharField(max_length=255)
-    address = models.TextField(blank=True)
+    address = HTMLField(blank=True, null=True)
 
     class Meta:
         unique_together = ("organization", "name")
+        verbose_name = "Branch"
+        verbose_name_plural = "Branch"
 
     def __str__(self):
         return f"{self.name} ({self.organization.name_en})"

@@ -18,6 +18,7 @@ class BlogCategory(models.Model):
 
     class Meta:
         db_table = 'blog_categories'
+        verbose_name = 'Blog Category'
         verbose_name_plural = 'Blog Category'
         
     def __str__(self):
@@ -33,6 +34,7 @@ class BlogTag(models.Model):
 
     class Meta:
         db_table = 'blog_tags'
+        verbose_name = 'Blog Tag'
         verbose_name_plural = 'Blog Tag'
 
     def __str__(self):
@@ -55,10 +57,10 @@ class Blog(models.Model):
     excerpt_en = HTMLField(blank=True, null=True)
     excerpt_np = HTMLField(blank=True, null=True)
     featured_image = models.ImageField(upload_to='blogs/blog/', null=True, blank=True)
-    category = models.ForeignKey(BlogCategory, on_delete=models.SET_NULL, null=True, related_name='blogs')
+    category = models.ForeignKey(BlogCategory, on_delete=models.PROTECT, related_name='blogs')
     tags = models.ManyToManyField(BlogTag, blank=True, related_name='blogs')
-    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='draft')
+    author = models.ForeignKey(User, on_delete=models.PROTECT, related_name='blogs')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES,null=True, default='draft')
     is_featured = models.BooleanField(default=False)
     view_count = models.IntegerField(default=0)
     published_at = models.DateTimeField(blank=True, null=True)
@@ -68,6 +70,7 @@ class Blog(models.Model):
     class Meta:
         db_table = 'blogs'
         ordering = ['-published_at', '-created_at']
+        verbose_name = 'Blog'
         verbose_name_plural = 'Blog'
 
     def __str__(self):

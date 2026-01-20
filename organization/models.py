@@ -3,6 +3,7 @@ import uuid
 from django.contrib.auth import get_user_model
 from datetime import date
 from django.core.exceptions import ValidationError
+from tinymce.models import HTMLField
 
 
 from django.core.validators import MinValueValidator
@@ -18,8 +19,8 @@ User = get_user_model()
 #     name_en = models.CharField(max_length=255)
 #     name_np = models.CharField(max_length=255, blank=True, null=True)
 #     slug = models.SlugField(max_length=255, unique=True)
-#     description_en = models.TextField()
-#     description_np = models.TextField(blank=True, null=True)
+#     description_en = HTMLField(blank=True, null=True)
+#     description_np = HTMLField(blank=True, null=True)
 #     logo = models.ImageField(
 #         upload_to="organization/organization/logo", null=True, blank=True
 #     )
@@ -27,15 +28,15 @@ User = get_user_model()
 #         upload_to="organization/organization/banner", null=True, blank=True
 #     )
 #     established_date = models.DateField(blank=True, null=True)
-#     manifesto_en = models.TextField(blank=True, null=True)
-#     manifesto_np = models.TextField(blank=True, null=True)
+#     manifesto_en = HTMLField(blank=True, null=True)
+#     manifesto_np = HTMLField(blank=True, null=True)
 #     manifesto_document = models.FileField(
 #         upload_to="org_manifestos/", null=True, blank=True
 #     )
 #     email = models.EmailField(blank=True, null=True)
 #     phone = models.CharField(max_length=20, blank=True, null=True)
-#     address_en = models.TextField(blank=True, null=True)
-#     address_np = models.TextField(blank=True, null=True)
+#     address_en = HTMLField(blank=True, null=True)
+#     address_np = HTMLField(blank=True, null=True)
 #     website = models.URLField(blank=True, null=True)
 #     facebook = models.URLField(blank=True, null=True)
 #     twitter = models.URLField(blank=True, null=True)
@@ -71,8 +72,8 @@ class Leadership(models.Model):
     member_type = models.CharField(
         max_length=20, choices=MEMBER_TYPE_CHOICES, default="member"
     )
-    bio_en = models.TextField(blank=True, null=True)
-    bio_np = models.TextField(blank=True, null=True)
+    bio_en = HTMLField(blank=True, null=True)
+    bio_np = HTMLField(blank=True, null=True)
     image = models.ImageField(upload_to="members/", null=True, blank=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
     facebook = models.URLField(blank=True, null=True)
@@ -87,6 +88,8 @@ class Leadership(models.Model):
     class Meta:
         db_table = "members"
         ordering = ["order", "name_en"]
+        verbose_name = "Leadership"
+        verbose_name_plural = "Leadership"
 
     def __str__(self):
         return f"{self.name_en} - {self.position_en}"
@@ -204,9 +207,9 @@ class MembershipRegistration(models.Model):
         verbose_name="Occupation",
         help_text="Current occupation or profession",
     )
-    motivation = models.TextField(
+    motivation = HTMLField(blank=True, null=True, 
         verbose_name="Motivation",
-        help_text="Why do you want to join? What are your motivations?",blank=True,null=True
+        help_text="Why do you want to join? What are your motivations?",
     )
 
     # Terms and Conditions
@@ -234,9 +237,7 @@ class MembershipRegistration(models.Model):
     approved_at = models.DateTimeField(
         null=True, blank=True, verbose_name="Approval Date"
     )
-    rejection_reason = models.TextField(
-        blank=True,
-        null=True,
+    rejection_reason = HTMLField(blank=True, null=True, 
         verbose_name="Rejection Reason",
         help_text="Reason for rejection (if applicable)",
     )
@@ -248,7 +249,7 @@ class MembershipRegistration(models.Model):
     class Meta:
         db_table = "membership_registrations"
         verbose_name = "Membership Registration"
-        verbose_name_plural = "Membership Registrations"
+        verbose_name_plural = "Membership Registration"
         ordering = ["-created_at"]
         indexes = [
             models.Index(fields=["status", "-created_at"]),
@@ -341,7 +342,7 @@ class PolicyCategory(models.Model):
     class Meta:
         db_table = "policy_categories"
         verbose_name = "Policy Category"
-        verbose_name_plural = "Policy Categories"
+        verbose_name_plural = "Policy Category"
         ordering = ["order", "name_en"]
 
     def save(self, *args, **kwargs):
@@ -370,8 +371,8 @@ class Policy(models.Model):
         max_length=255, blank=True, verbose_name="Title (Nepali)"
     )
     slug = models.SlugField(max_length=300, unique=True, blank=True)
-    description = models.TextField()
-    description_ne = models.TextField(blank=True, verbose_name="Description (Nepali)")
+    description = HTMLField(blank=True, null=True)
+    description_ne = HTMLField(blank=True, null=True, verbose_name="Description (Nepali)")
     icon = models.CharField(
         max_length=100, blank=True, help_text="Icon identifier or path"
     )
@@ -381,8 +382,8 @@ class Policy(models.Model):
         on_delete=models.PROTECT,
         related_name="policies", blank=True, null=True
     )
-    content = models.TextField(blank=True, help_text="Detailed policy content")
-    content_ne = models.TextField(blank=True, verbose_name="Content (Nepali)")
+    content = HTMLField(blank=True, null=True, help_text="Detailed policy content")
+    content_ne = HTMLField(blank=True, null=True, verbose_name="Content (Nepali)")
     order = models.IntegerField(default=0)
     is_featured = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -391,7 +392,7 @@ class Policy(models.Model):
     class Meta:
         db_table = "policies"
         verbose_name = "Policy"
-        verbose_name_plural = "Policies"
+        verbose_name_plural = "Policy"
         ordering = ["order", "title"]
 
     def save(self, *args, **kwargs):
@@ -439,7 +440,7 @@ class Donation(models.Model):
     payment_method = models.CharField(max_length=50, choices=PAYMENT_METHOD_CHOICES)
     transaction_id = models.CharField(max_length=100, unique=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="pending")
-    message = models.TextField(blank=True, help_text="Optional donor message")
+    message = HTMLField(blank=True, null=True, help_text="Optional donor message")
     is_anonymous = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -447,7 +448,7 @@ class Donation(models.Model):
     class Meta:
         db_table = "donations"
         verbose_name = "Donation"
-        verbose_name_plural = "Donations"
+        verbose_name_plural = "Donation"
         ordering = ["-created_at"]
 
     def __str__(self):

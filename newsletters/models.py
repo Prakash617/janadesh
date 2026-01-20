@@ -14,7 +14,7 @@ class NewsletterSubscription(models.Model):
     class Meta:
         db_table = 'newsletter_subscriptions'
         verbose_name = 'Newsletter Subscription'
-        verbose_name_plural = 'Newsletter Subscriptions'
+        verbose_name_plural = 'Newsletter Subscription'
         ordering = ['-subscribed_at']
     
     def __str__(self):

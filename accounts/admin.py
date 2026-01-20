@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.urls import reverse
+from django.utils.html import format_html
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import User
 
@@ -6,7 +8,7 @@ from .models import User
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
     ordering = ("email",)
-    list_display = ("email", "first_name", "last_name", "organization", "branch", "is_staff")
+    list_display = ("email", "first_name", "last_name", "organization", "branch", "is_staff", "action_buttons")
     list_filter = ("organization", "branch", "is_staff", "is_active")
     search_fields = ("email", "first_name", "last_name")
 
@@ -25,8 +27,7 @@ class UserAdmin(BaseUserAdmin):
                 "email",
                 "first_name",
                 "last_name",
-                "password1",
-                "password2",
+                "password",
             ),
         }),
     )
@@ -43,3 +44,12 @@ class UserAdmin(BaseUserAdmin):
                 obj.branch = request.user.branch
 
         super().save_model(request, obj, form, change)
+
+    def action_buttons(self, obj):
+        edit_url = reverse('admin:accounts_user_change', args=[obj.id])
+        return format_html(
+            '<a href="{}" style="padding:4px 10px; background-color:#28A745; color:white; '
+            'border-radius:5px; text-decoration:none; margin-right:5px; font-weight:bold;">Edit</a>',
+            edit_url
+        )
+    action_buttons.short_description = 'Actions'

@@ -16,6 +16,9 @@ class Menu(models.Model):
 
     class Meta:
         db_table = 'menus'
+        verbose_name = 'Menu'
+        verbose_name_plural = 'Menu'
+        ordering = ['-created_at']
 
     def __str__(self):
         return f"{self.name} ({self.location})"
@@ -50,6 +53,8 @@ class MenuItem(models.Model):
     class Meta:
         db_table = 'menu_items'
         ordering = ['order']
+        verbose_name = 'Menu Item'
+        verbose_name_plural = 'Menu Item'
         
     def save(self, *args, **kwargs):
         # Auto-fill URL from Page

@@ -88,6 +88,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     class Meta:
         db_table = "users"
+        verbose_name = "User"
+        verbose_name_plural = "User"
 
     def __str__(self):
         return self.email

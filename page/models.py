@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.text import slugify
 from django.urls import reverse
 from django.conf import settings
+from tinymce.models import HTMLField
 
 
 class Page(models.Model):
@@ -21,10 +22,8 @@ class Page(models.Model):
     meta_description = models.CharField(
         max_length=160, blank=True, help_text="SEO meta description"
     )
-    content = models.TextField(help_text="Main page content (HTML allowed)")
-    excerpt = models.TextField(
-        blank=True, max_length=300, help_text="Short summary of the page"
-    )
+    content = HTMLField(blank=True, null=True, help_text="Main page content (HTML allowed)")
+    excerpt = HTMLField(blank=True, null=True, max_length=300, help_text="Short summary of the page")
     
     featured_image = models.ImageField(upload_to='pages/', blank=True, null=True)
     
@@ -49,7 +48,7 @@ class Page(models.Model):
     class Meta:
         ordering = ['-created_at']
         verbose_name = 'Page'
-        verbose_name_plural = 'Pages'
+        verbose_name_plural = 'Page'
     
     def __str__(self):
         return self.title

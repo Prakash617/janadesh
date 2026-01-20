@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from django.urls import reverse
+from tinymce.models import HTMLField
 
 class Manifesto(models.Model):
     """Model to store manifesto PDF files"""
@@ -14,7 +15,7 @@ class Manifesto(models.Model):
     # Basic info
     title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True, blank=True)
-    description = models.TextField(blank=True, help_text="Short description of the manifesto")
+    description = HTMLField(blank=True, help_text="Short description of the manifesto")
     
     # PDF file
     pdf_file = models.FileField(upload_to="manifestos/", help_text="Upload PDF file here")
@@ -28,7 +29,7 @@ class Manifesto(models.Model):
     class Meta:
         ordering = ["-created_at"]
         verbose_name = "Manifesto"
-        verbose_name_plural = "Manifestos"
+        verbose_name_plural = "Manifesto"
 
     def __str__(self):
         return self.title

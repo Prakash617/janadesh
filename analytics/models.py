@@ -1,4 +1,5 @@
 from django.db import models
+from tinymce.models import HTMLField
 
 # Register your models here.
 
@@ -15,10 +16,10 @@ class AnalyticsEvent(models.Model):
     event_type = models.CharField(max_length=50, choices=EVENT_TYPE_CHOICES)
     object_type = models.CharField(max_length=50, blank=True, null=True) #model name
     object_id = models.IntegerField(blank=True, null=True) #single model id
-    url = models.TextField()
-    referrer = models.TextField(blank=True, null=True)
+    url = HTMLField(blank=True, null=True)
+    referrer = HTMLField(blank=True, null=True)
     ip_address = models.GenericIPAddressField()
-    user_agent = models.TextField(blank=True, null=True)
+    user_agent = HTMLField(blank=True, null=True)
     session_id = models.CharField(max_length=255, blank=True, null=True)
     language = models.CharField(max_length=5, default='en')
     country = models.CharField(max_length=100, blank=True, null=True)
@@ -28,6 +29,8 @@ class AnalyticsEvent(models.Model):
     class Meta:
         db_table = 'analytics_events'
         ordering = ['-created_at']
+        verbose_name = 'Analytics Event'
+        verbose_name_plural = 'Analytics Event'
         indexes = [
             models.Index(fields=['event_type', 'created_at']),
             models.Index(fields=['object_type', 'object_id']),

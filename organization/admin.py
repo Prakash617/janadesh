@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.urls import reverse
 from .models import  Leadership, MembershipRegistration, Policy, Donation,PolicyCategory
 from django.utils.html import format_html
 
@@ -31,11 +32,20 @@ from django.utils.html import format_html
 # admin.site.register(Organization, OrganizationAdmin)
 
 class LeadershipAdmin(admin.ModelAdmin):
-    list_display = ('name_en', 'position_en', 'member_type', 'is_featured', 'is_active', 'order')
+    list_display = ('name_en', 'position_en', 'member_type', 'is_featured', 'is_active', 'order', 'action_buttons')
     list_filter = ('member_type', 'is_featured', 'is_active')
     search_fields = ('name_en', 'name_np', 'position_en', 'position_np', 'bio_en', 'bio_np')
     prepopulated_fields = {'slug': ('name_en',)}
     readonly_fields = ('created_at', 'updated_at')
+
+    def action_buttons(self, obj):
+        edit_url = reverse('admin:organization_leadership_change', args=[obj.id])
+        return format_html(
+            '<a href="{}" style="padding:4px 10px; background-color:#28A745; color:white; '
+            'border-radius:5px; text-decoration:none; margin-right:5px; font-weight:bold;">Edit</a>',
+            edit_url
+        )
+    action_buttons.short_description = 'Actions'
 
 admin.site.register(Leadership, LeadershipAdmin)
 
@@ -50,7 +60,8 @@ class MembershipRegistrationAdmin(admin.ModelAdmin):
         'province',
         'district',
         'status_badge',
-        'created_at'
+        'created_at',
+        'action_buttons'
     ]
     
     list_filter = [
@@ -140,6 +151,15 @@ class MembershipRegistrationAdmin(admin.ModelAdmin):
     
     actions = ['approve_applications', 'reject_applications']
     
+    def action_buttons(self, obj):
+        edit_url = reverse('admin:organization_membershipregistration_change', args=[obj.id])
+        return format_html(
+            '<a href="{}" style="padding:4px 10px; background-color:#28A745; color:white; '
+            'border-radius:5px; text-decoration:none; margin-right:5px; font-weight:bold;">Edit</a>',
+            edit_url
+        )
+    action_buttons.short_description = 'Actions'
+
     def validate_date_of_birth(self, value):
         today = date.today()
         age = today.year - value.year - ((today.month, today.day) < (value.month, value.day))
@@ -190,6 +210,7 @@ class PolicyCategoryAdmin(admin.ModelAdmin):
         "order",
         "is_active",
         "created_at",
+        "action_buttons"
     )
     list_filter = ("is_active",)
     list_editable = ("is_active", "order")
@@ -206,11 +227,20 @@ class PolicyCategoryAdmin(admin.ModelAdmin):
         }),
     )
 
+    def action_buttons(self, obj):
+        edit_url = reverse('admin:organization_policycategory_change', args=[obj.id])
+        return format_html(
+            '<a href="{}" style="padding:4px 10px; background-color:#28A745; color:white; '
+            'border-radius:5px; text-decoration:none; margin-right:5px; font-weight:bold;">Edit</a>',
+            edit_url
+        )
+    action_buttons.short_description = 'Actions'
+
     # Readonly timestamps
     # readonly_fields = ("created_at", "updated_at")
 
 class PolicyAdmin(admin.ModelAdmin):
-    list_display = ('title', 'category', 'is_featured', 'order', 'created_at')
+    list_display = ('title', 'category', 'is_featured', 'order', 'created_at', 'action_buttons')
     list_filter = ('category', 'is_featured')
     list_editable = ("is_featured", "order")
 
@@ -218,13 +248,31 @@ class PolicyAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     # readonly_fields = ('created_at', 'updated_at')
 
+    def action_buttons(self, obj):
+        edit_url = reverse('admin:organization_policy_change', args=[obj.id])
+        return format_html(
+            '<a href="{}" style="padding:4px 10px; background-color:#28A745; color:white; '
+            'border-radius:5px; text-decoration:none; margin-right:5px; font-weight:bold;">Edit</a>',
+            edit_url
+        )
+    action_buttons.short_description = 'Actions'
+
 admin.site.register(Policy, PolicyAdmin)
 
 class DonationAdmin(admin.ModelAdmin):
-    list_display = ('donor_name', 'amount', 'currency', 'payment_method', 'status', 'is_anonymous', 'created_at')
+    list_display = ('donor_name', 'amount', 'currency', 'payment_method', 'status', 'is_anonymous', 'created_at', 'action_buttons')
     list_filter = ('payment_method', 'status', 'currency', 'is_anonymous')
     search_fields = ('donor_name', 'donor_email', 'transaction_id')
     readonly_fields = ('created_at', 'updated_at')
     date_hierarchy = 'created_at'
+
+    def action_buttons(self, obj):
+        edit_url = reverse('admin:organization_donation_change', args=[obj.id])
+        return format_html(
+            '<a href="{}" style="padding:4px 10px; background-color:#28A745; color:white; '
+            'border-radius:5px; text-decoration:none; margin-right:5px; font-weight:bold;">Edit</a>',
+            edit_url
+        )
+    action_buttons.short_description = 'Actions'
 
 admin.site.register(Donation, DonationAdmin)

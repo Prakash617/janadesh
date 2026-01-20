@@ -41,11 +41,11 @@ import organization_app.api.v1.urls
 # ------------------------------------------------------------------------------
 urlpatterns = [
     # Admin & internal tools
+    path('admin/', include('filehub.urls')),
     path("admin/", admin.site.urls),
     path("filemanager/", filehub_embed, name="admin_filehub"),
 
     # Web apps
-    path("", include("filehub.urls")),
     path("analytics/", include("analytics.urls")),
     # path("campaign/", include("campaign.api.v1.urls")),
     path("menu/", include("menu.urls")),

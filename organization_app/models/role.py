@@ -15,6 +15,8 @@ class Role(models.Model):
 
     class Meta:
         unique_together = ("organization", "name")
+        verbose_name = "Role"
+        verbose_name_plural = "Role"
 
     def __str__(self):
         return f"{self.name} ({self.organization})"

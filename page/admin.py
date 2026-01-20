@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import Page
+from django.urls import reverse
 from django.utils.html import format_html
+from .models import Page
 
 @admin.register(Page)
 class PageAdmin(admin.ModelAdmin):
@@ -13,6 +14,7 @@ class PageAdmin(admin.ModelAdmin):
         "published_at",
         "created_at",
         "updated_at",
+        "action_buttons",
     )
     
     # Make 'status' editable directly in the list view
@@ -61,5 +63,14 @@ class PageAdmin(admin.ModelAdmin):
         return "-"
     featured_image_preview.short_description = "Image Preview"
     
+    def action_buttons(self, obj):
+        edit_url = reverse('admin:page_page_change', args=[obj.id])
+        return format_html(
+            '<a href="{}" style="padding:4px 10px; background-color:#28A745; color:white; '
+            'border-radius:5px; text-decoration:none; margin-right:5px; font-weight:bold;">Edit</a>',
+            edit_url
+        )
+    action_buttons.short_description = 'Actions'
+
     # Include the thumbnail in list_display if desired
     # list_display += ("featured_image_preview",)

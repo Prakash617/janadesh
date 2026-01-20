@@ -76,6 +76,7 @@ DASHUB_SETTINGS = {
         "website.about",
         "website.futurevision",
         "website.socialmedialink",
+        "website.socialplatform",
         # --------------------------------------------------
         # SEO
         # --------------------------------------------------
@@ -100,122 +101,105 @@ DASHUB_SETTINGS = {
         "analytics.analyticsevent",
     ],
     "custom_links": {
-        "auth": [
-            {"model": "auth.post"},  # Links directly to the auth.post model
-            {
-                "name": "User Management",
-                "icon": "fa-solid fa-users",
-                "submenu": [
-                    {"model": "auth.user", "order": 1},
-                    {"model": "auth.group", "order": 2},
-                ],
-            },
-        ],
-        "Organization Settings": [
-            # {"model": "auth.post"},  # Links directly to the auth.post model
-            # {"model": "website.about", "order": 1},
-            {
-                "name": "Organization",
-                "icon": "hgi hgi-stroke hgi-command",
-                "url": "/admin/organization/organization/",
-                "submenu": [
-                    {"model": "organization_app.organization", "order": 1},
-                    {"model": "organization_app.branch", "order": 2},
-                    {"model": "organization.donation", "order": 1},
-                    {"model": "organization.membershipregistration", "order": 1},
-                    {"model": "organization.policy", "order": 1},
-                    {"model": "organization.policycategory", "order": 1},
-                    {"model": "organization.leadership", "order": 1},
-                ],
-            },
-        ],
-        # "Communication": [
-        #     # {"model": "auth.post"},  # Links directly to the auth.post model
-        #     # {"model": "website.about", "order": 1},
-        #     {
-        #         "name": "Organization Management",
-        #         "icon": "fa-solid fa-users",
-        #         "url": "/admin/organization/organization/",
-        #         "submenu": [
-        #             {"model": "organization_app.organization", "order": 1},
-        #             {"model": "organization_app.branch", "order": 2},
-        #             {"model": "organization.donation", "order": 1},
-        #             {"model": "organization.membershipregistration", "order": 1},
-        #             {"model": "organization.policy", "order": 1},
-        #             {"model": "organization.policycategory", "order": 1},
-        #             {"model": "organization.leadership", "order": 1},
-        #         ],
-        #     },
-        # ],
-        "Website Settings": [
-            {
-                "name": "Content",
-                "icon": "hgi hgi-stroke hgi-carousel-horizontal",
-                "url": "/admin/website/content/",
-                "submenu": [
-                    {"model": "website.about", "order": 1},
-                    {"model": "seo.seometadata", "order": 1},
-                    {"model": "manifesto.manifesto", "order": 2},
-                    {"model": "website.futurevision", "order": 3},
-                    {"model": "website.curateditem", "order": 4},
-                    {"model": "website.socialmedialink", "order": 4},
-                    {"model": "timelines.timeline", "order": 4},
-                    {"model": "services.service", "order": 4},
-                    {"model": "galleries.gallery", "order": 4},
-                ],
-            },
-            # {
-            #     "name": "Menus",
-            #     "icon": "hgi hgi-stroke hgi-carousel-horizontal",
-            #     "url": "/admin/website/menus/",
-            #     "submenu": [
-            #         {"model": "menu.menu", "order": 1},
-            #         # {"model": "website.carouselslide", "order": 2},
-            #         {"model": "page.page", "order": 3},
-            #         # {"model": "website.curateditem", "order": 4},
-            #         # {"model": "website.socialmedialink", "order": 4},
-            #         # {"model": "timelines.timeline", "order": 4},
-            #         # {"model": "services.service", "order": 4},
-            #     ],
-            # },
-            {
-                "name": "Blog",
-                "icon": "hgi hgi-stroke hgi-carousel-horizontal",
-                "url": "/admin/website/blog/",
-                "submenu": [
-                    {"model": "blogs.blog", "order": 1},
-                    {"model": "blogs.blogcategory", "order": 2},
-                    {"model": "blogs.blogtag", "order": 3},
-                    # {"model": "website.curateditem", "order": 4},
-                    # {"model": "website.socialmedialink", "order": 4},
-                    # {"model": "timelines.timeline", "order": 4},
-                    # {"model": "services.service", "order": 4},
-                ],
-            },
-            {
-                "name": "Communication",
-                "icon": "hgi hgi-stroke hgi-carousel-horizontal",
-                "url": "/admin/website/communication/",
-                "submenu": [
-                    {"model": "newsletters.newslettersubscription", "order": 1},
-                    {"model": "contacts.contact", "order": 2},
-                    # {"model": "blogs.blogtag", "order": 3},
-                    # {"model": "website.curateditem", "order": 4},
-                    # {"model": "website.socialmedialink", "order": 4},
-                    # {"model": "timelines.timeline", "order": 4},
-                    # {"model": "services.service", "order": 4},
-                ],
-            },
-        ],
-        "advance": [
-            {
-                "name": "File Manager",
-                "url": "/filemanager/",
-                "icon": "hgi hgi-stroke hgi-folder-cloud",
-                "order": 1,
-            },
-        ],
-    },
+
+    # =========================
+    # AUTH / USER MANAGEMENT
+    # =========================
+    "auth": [
+        {"model": "auth.post", "order": 1},
+
+        {
+            "name": "User Management",
+            "icon": "fa-solid fa-users",
+            "order": 2,
+            "submenu": [
+                {"model": "auth.user", "order": 1},
+                {"model": "auth.group", "order": 2},
+            ],
+        },
+    ],
+
+    # =========================
+    # ORGANIZATION SETTINGS
+    # =========================
+    "Organization Settings": [
+        {
+            "name": "Organization",
+            "icon": "hgi hgi-stroke hgi-command",
+            "url": "/admin/organization/organization/",
+            "order": 1,
+            "submenu": [
+                {"model": "organization_app.organization", "order": 1},
+                {"model": "organization_app.branch", "order": 2},
+                {"model": "organization.membershipregistration", "order": 3},
+                {"model": "organization.leadership", "order": 4},
+                {"model": "organization.policycategory", "order": 5},
+                {"model": "organization.policy", "order": 6},
+                # {"model": "organization.donation", "order": 7},
+            ],
+        },
+    ],
+
+    # =========================
+    # WEBSITE SETTINGS
+    # =========================
+    "Website Settings": [
+
+        {
+            "name": "Content",
+            "icon": "hgi hgi-stroke hgi-carousel-horizontal",
+            "url": "/admin/website/content/",
+            "order": 1,
+            "submenu": [
+                {"model": "website.about", "order": 1},
+                {"model": "seo.seometadata", "order": 2},
+                {"model": "manifesto.manifesto", "order": 3},
+                {"model": "website.futurevision", "order": 4},
+                {"model": "website.curateditem", "order": 5},
+                {"model": "website.socialplatform", "order": 6},
+                {"model": "website.socialmedialink", "order": 6},
+                {"model": "timelines.timeline", "order": 7},
+                {"model": "services.service", "order": 8},
+                {"model": "galleries.gallery", "order": 9},
+            ],
+        },
+
+        {
+            "name": "Blog",
+            "icon": "hgi hgi-stroke hgi-license",
+            "url": "/admin/website/blog/",
+            "order": 2,
+            "submenu": [
+                {"model": "blogs.blog", "order": 1},
+                {"model": "blogs.blogcategory", "order": 2},
+                {"model": "blogs.blogtag", "order": 3},
+            ],
+        },
+
+        {
+            "name": "Communication",
+            "icon": "hgi hgi-stroke hgi-service",
+            "url": "/admin/website/communication/",
+            "order": 3,
+            "submenu": [
+                {"model": "newsletters.newslettersubscription", "order": 1},
+                {"model": "contacts.contact", "order": 2},
+            ],
+        },
+    ],
+
+    # =========================
+    # ADVANCED TOOLS
+    # =========================
+    "advance": [
+        {
+            "name": "File Manager",
+            "url": "/filemanager/",
+            "icon": "hgi hgi-stroke hgi-folder-cloud",
+            "order": 1,
+        },
+    ],
+},
     "submenus_models": ["auth.group"],
     "default_orders": {
         "auth": 10,
