@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import reverse
 from django.utils.html import format_html
-from website.models import About, AboutImage,FutureVision,SocialMediaLink,SocialPlatform
+from website.models import About, AboutImage,FutureVision,SocialMediaLink,SocialPlatform,HeroNews,HeroSection
 
 class AboutImageInline(admin.TabularInline):
     model = AboutImage
@@ -101,3 +101,46 @@ class SocialMediaLinkAdmin(admin.ModelAdmin):
             edit_url
         )
     action_buttons.short_description = 'Actions'
+from django.contrib import admin
+from .models import HeroSection, HeroNews
+
+
+class HeroNewsInline(admin.StackedInline):
+    model = HeroNews
+    extra = 0
+    fields = ("description_en", "description_np")
+    show_change_link = True
+
+
+@admin.register(HeroSection)
+class HeroSectionAdmin(admin.ModelAdmin):
+    list_display = ("title_en", "title_np", "created_at")
+    inlines = [HeroNewsInline]
+
+    fieldsets = (
+        ("Content", {
+            "fields": (
+                "title_en",
+                "subtitle_en",
+                "description_en",
+                "button_text_en",
+                "title_np",
+                "subtitle_np",
+                "description_np",
+                "button_text_np",
+            )
+        }),
+        ("Media & Action", {
+            "fields": (
+                "button_url",
+                "main_image",
+            )
+        }),
+        
+    )
+
+    readonly_fields = ("created_at", "updated_at")
+
+    def has_add_permission(self, request):
+        # Allow add only if no HeroSection exists (singleton)
+        return not HeroSection.objects.exists()

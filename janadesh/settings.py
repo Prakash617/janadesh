@@ -282,7 +282,7 @@ TINYMCE_DEFAULT_CONFIG = {
     "external_filemanager_path": "/admin/filehub/select/",
     "filemanager_title": "Filemanager",
     "external_plugins": {
-        "filehub": "/static/filehub/tinymce/plugin.min.js",
+        "filehub": "/static/filehub/tinymce/plugin.js",
     },
     "relative_urls": False,
     "remove_script_host": False,
