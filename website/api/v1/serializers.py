@@ -74,6 +74,8 @@ class HeroNewsSerializer(serializers.ModelSerializer):
         model = HeroNews
         fields = [
             "id",
+            "title_en",
+            "title_np",
             "description_en",
             "description_np",
             "created_at",
@@ -101,7 +103,8 @@ class HeroSectionSerializer(serializers.ModelSerializer):
 
             # Common
             "button_url",
-            "main_image",
+            "profile_image",
+            "background_image",
             "hero_news",
             "created_at",
             "updated_at",

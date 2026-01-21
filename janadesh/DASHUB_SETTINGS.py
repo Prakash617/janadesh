@@ -77,6 +77,8 @@ DASHUB_SETTINGS = {
         "website.futurevision",
         "website.socialmedialink",
         "website.socialplatform",
+        "website.herosection",
+        
         # --------------------------------------------------
         # SEO
         # --------------------------------------------------
@@ -151,6 +153,7 @@ DASHUB_SETTINGS = {
             "url": "/admin/website/content/",
             "order": 1,
             "submenu": [
+                {"model": "website.herosection", "order": 1},
                 {"model": "website.about", "order": 1},
                 {"model": "seo.seometadata", "order": 2},
                 {"model": "manifesto.manifesto", "order": 3},

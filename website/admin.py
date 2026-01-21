@@ -108,13 +108,13 @@ from .models import HeroSection, HeroNews
 class HeroNewsInline(admin.StackedInline):
     model = HeroNews
     extra = 0
-    fields = ("description_en", "description_np")
+    fields = ('title_en', 'title_np',"description_en", "description_np")
     show_change_link = True
 
 
 @admin.register(HeroSection)
 class HeroSectionAdmin(admin.ModelAdmin):
-    list_display = ("title_en", "title_np", "created_at")
+    list_display = ("title_en", "title_np","image_preview",)
     inlines = [HeroNewsInline]
 
     fieldsets = (
@@ -133,13 +133,24 @@ class HeroSectionAdmin(admin.ModelAdmin):
         ("Media & Action", {
             "fields": (
                 "button_url",
-                "main_image",
+                "profile_image",
+                "background_image",
             )
         }),
         
     )
 
-    readonly_fields = ("created_at", "updated_at")
+    readonly_fields = ("created_at", "updated_at","image_preview")
+    
+    def image_preview(self, obj):
+        if obj.profile_image:
+            return format_html(
+                '<img src="{}" style="height:50px; width:auto; border-radius:6px;" />',
+                obj.profile_image.url
+            )
+        return "—"
+
+    image_preview.short_description = "Profile Image"
 
     def has_add_permission(self, request):
         # Allow add only if no HeroSection exists (singleton)
